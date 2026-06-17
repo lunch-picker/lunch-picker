@@ -96,6 +96,55 @@ h1{font-size:24px;font-weight:800;background:linear-gradient(135deg,#ea580c,#f97
 .modal img{max-width:100%;max-height:90vh;border-radius:16px}
 .modal .close{position:absolute;top:16px;right:20px;color:#fff;font-size:28px;cursor:pointer;background:none;border:none}
 .photo-preview{display:none;width:60px;height:60px;border-radius:12px;object-fit:cover;margin:4px auto 0;border:2px solid #fbd7b5}
+
+/* Discover section */
+.disc{margin-top:14px;padding-top:12px;border-top:2px dashed #f5e4d4}
+.disc-h{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.disc-h .di{font-size:16px}
+.disc-h .dl{font-size:14px;font-weight:700;color:#57534e}
+.disc-h .dc{margin-left:auto;font-size:12px;color:#9a8c80;font-weight:500;background:#f5e4d4;padding:2px 10px;border-radius:12px;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.disc-body{position:relative;overflow:hidden}
+.disc-greeting{font-size:15px;font-weight:700;color:#431407;margin-bottom:8px}
+.disc-greeting .emo{font-size:18px}
+.disc-rec{display:flex;gap:8px;overflow-x:auto;padding:2px 0 6px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.disc-rec::-webkit-scrollbar{display:none}
+.d-rec-c{flex-shrink:0;width:100px;background:linear-gradient(180deg,#fff7ed,#fef3e9);border-radius:14px;padding:10px 8px;text-align:center;border:1.5px solid #fed7aa;transition:.2s}
+.d-rec-c:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(234,88,12,.12)}
+.d-rec-c .r-emo{font-size:28px;display:block;margin-bottom:4px}
+.d-rec-c .r-name{font-size:13px;font-weight:700;color:#431407;display:block}
+.d-rec-c .r-desc{font-size:11px;color:#9a8c80;display:block;margin-top:2px}
+.disc-nearby{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.d-near-item{display:flex;align-items:center;gap:10px;padding:8px 10px;background:#fff;border-radius:12px;border:1px solid #f5e4d4;transition:.15s;cursor:default}
+.d-near-item:hover{background:#fef3e9}
+.d-near-item .ni-emo{font-size:20px;width:28px;text-align:center;flex-shrink:0}
+.d-near-item .ni-info{flex:1;min-width:0}
+.d-near-item .ni-name{font-size:13px;font-weight:700;color:#431407}
+.d-near-item .ni-desc{font-size:11px;color:#9a8c80;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.d-near-item .ni-tag{font-size:10px;font-weight:600;color:#ea580c;background:#fef3e9;padding:2px 8px;border-radius:8px;white-space:nowrap;flex-shrink:0}
+.disc-loading{font-size:13px;color:#d6c4b8;text-align:center;padding:12px 0}
+.disc-error{font-size:12px;color:#9a8c80;text-align:center;padding:8px 0}
+.disc-loc-btn{background:none;border:none;color:#f97316;font-size:12px;cursor:pointer;text-decoration:underline;padding:0}
+/* Pulse animation for loading */
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:.8}}
+.disc-pulse{animation:pulse 1.5s ease-in-out infinite}
+
+
+.sphoto{margin-top:8px;display:none}
+.sphoto img{width:100%;max-height:160px;border-radius:14px;object-fit:cover;border:2px solid #fbd7b5;box-shadow:0 4px 16px rgba(234,88,12,.15);animation:photoIn .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes photoIn{0%{transform:scale(.8);opacity:0}100%{transform:scale(1);opacity:1}}
+.share-sec{margin-top:14px;padding-top:12px;border-top:2px dashed #f5e4d4;text-align:center}
+.share-sec .sh-title{font-size:14px;font-weight:700;color:#57534e;margin-bottom:8px;text-align:center}
+.share-sec .sh-qr-wrap{display:inline-block;position:relative;padding:18px 18px 12px;background:linear-gradient(180deg,#fffaf3,#fff5e6);border-radius:20px;border:2px solid #fbd7b5;box-shadow:0 4px 16px rgba(234,88,12,.08)}
+.share-sec .sh-qr-wrap img{width:150px;height:150px;display:block;margin:0 auto;border-radius:10px}
+.share-sec .sh-qr-wrap .sh-label{font-size:10px;color:#baa08a;margin-top:6px;text-align:center}
+.share-sec .sh-qr-wrap .sh-sticker{position:absolute;top:-12px;right:-8px;font-size:28px;transform:rotate(15deg)}
+.share-sec .sh-btns{display:flex;gap:10px;justify-content:center;margin-top:10px;flex-wrap:wrap}
+.share-sec .sh-btn{display:inline-flex;align-items:center;gap:4px;padding:10px 20px;border-radius:100px;font-size:14px;font-weight:700;cursor:pointer;border:none;transition:.15s}
+.share-sec .sh-btn.primary{background:linear-gradient(135deg,#f97316,#ea580c);color:#fff;box-shadow:0 3px 10px rgba(234,88,12,.25)}
+.share-sec .sh-btn.primary:hover{transform:translateY(-2px);box-shadow:0 5px 16px rgba(234,88,12,.3)}
+.share-sec .sh-btn.secondary{background:#fff;color:#431407;border:1.5px solid #fbd7b5}
+.share-sec .sh-btn.secondary:hover{background:#fef3e9}
+.share-sec .sh-hint{font-size:11px;color:#d6c4b8;margin-top:8px;text-align:center;line-height:1.5}
 </style>
 </head>
 <body>
@@ -140,12 +189,27 @@ h1{font-size:24px;font-weight:800;background:linear-gradient(135deg,#ea580c,#f97
 <div id="t-pick" class="tab-c active">
   <div class="slot">
     <div class="stxt" id="sd">今天想吃什么？</div>
-    <div class="shint" id="sh">点击下面按钮让命运替你决定</div>
+    <div class="sphoto" id="sphoto"><img id="sphotoImg" src="" alt=""></div>
+  <div class="shint" id="sh">点击下面按钮让命运替你决定</div>
     <div class="cf" id="cf"></div>
   </div>
   <button class="roll" id="roll"><span>🎲</span><span>转一下</span></button>
   <button class="rec-btn" id="recBtn" disabled><span class="ic">✅</span><span id="recText">记录今天吃了这个</span></button>
 </div>
+
+
+  <!-- Discover -->
+  <div class="disc" id="disc">
+    <div class="disc-h">
+      <span class="di">🗺️</span>
+      <span class="dl">发现美食</span>
+      <span class="dc" id="dcity">📍 定位中...</span>
+    </div>
+    <div class="disc-body" id="discBody">
+      <div class="disc-loading disc-pulse" id="discLoad">正在获取你附近的美食...</div>
+    </div>
+  </div>
+
 
 <!-- Tab: History -->
 <div id="t-hist" class="tab-c">
@@ -176,7 +240,21 @@ h1{font-size:24px;font-weight:800;background:linear-gradient(135deg,#ea580c,#f97
 </div>
 
 <!-- Tabs -->
-<div class="tabs">
+<div class="share-sec">
+    <div class="sh-title">📤 分享给朋友</div>
+    <div class="sh-qr-wrap">
+      <span class="sh-sticker">🍜</span>
+      <img id="qrImg" src="data:image/png;base64,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" alt="QR">
+      <div class="sh-label">扫码打开 · 永久分享</div>
+    </div>
+    <div class="sh-btns">
+      <button class="sh-btn primary" id="shareBtn">📲 分享给朋友</button>
+      <button class="sh-btn secondary" id="copyBtn">📋 复制链接</button>
+      <button class="sh-btn secondary" id="saveQrBtn">💾 保存二维码</button>
+    </div>
+    <div class="sh-hint">💡 扫二维码直接打开 · 分享给同事零戒备</div>
+  </div>
+  <div class="tabs">
   <button class="tab active" data-tab="pick">🎲 选菜</button>
   <button class="tab" data-tab="hist">📋 历史</button>
   <button class="tab" data-tab="mg">⚙️ 管理</button>
@@ -253,7 +331,7 @@ function clearR(){sd.className='stxt';sd.textContent=items.length?'今天想吃�
 function fc(){const c=$('cf');const cl=['#f97316','#fca5a5','#facc15','#4ade80','#60a5fa','#c084fc','#f472b6'];c.innerHTML='';for(let i=0;i<30;i++){const e=document.createElement('span');e.style.left=Math.random()*100+'%';e.style.top=Math.random()*40+'%';e.style.background=cl[Math.floor(Math.random()*cl.length)];e.style.width=(4+Math.random()*8)+'px';e.style.height=(4+Math.random()*8)+'px';e.style.animationDuration=(.6+Math.random()*.8)+'s';e.style.animationDelay=Math.random()*.3+'s';c.appendChild(e)}setTimeout(()=>{c.innerHTML=''},2000)}
 
 // ===== Spin =====
-function spin(){if(isSpin)return;if(!items.length){$('warn').textContent='⚠️ 菜单是空的！';return}$('warn').textContent='';isSpin=!0;roll.disabled=!0;sd.className='stxt spinning';sh.className='shint';sh.textContent='🤔 让我想想……';recBtn.disabled=!0;ai();const dur=2200,iv=60,tt=Math.floor(dur/iv);let tk=0,ri=-1;function eo(t){return 1-Math.pow(1-t,3)}function st(){tk++;const p=tk/tt,eo2=eo(Math.min(p,1));if(p>=1){sd.className='stxt result';sd.textContent=items[ri];sh.className='shint rh';sh.textContent='🍚 决定了！就吃这个！';isSpin=!1;roll.disabled=!1;lastResult=items[ri];recBtn.disabled=!1;recText.textContent='✅ 记录今天吃了「'+lastResult+'」';fc();pr();return}if(p>.8&&ri===-1)ri=Math.floor(Math.random()*items.length);let idx;if(ri!==-1&&Math.random()<eo2)idx=ri;else idx=Math.floor(Math.random()*items.length);sd.textContent=items[idx];pt();setTimeout(st,iv*(1+eo2*1.5))}st()}
+function spin(){if(isSpin)return;if(!items.length){$('warn').textContent='⚠️ 菜单是空的！';return}$('warn').textContent='';isSpin=!0;roll.disabled=!0;sd.className='stxt spinning';sh.className='shint';sh.textContent='🤔 让我想想……';document.getElementById('sphoto').style.display='none';recBtn.disabled=!0;ai();const dur=2200,iv=60,tt=Math.floor(dur/iv);let tk=0,ri=-1;function eo(t){return 1-Math.pow(1-t,3)}function st(){tk++;const p=tk/tt,eo2=eo(Math.min(p,1));if(p>=1){sd.className='stxt result';sd.textContent=items[ri];const _ph=phCache[items[ri]];const _sp=document.getElementById('sphoto'),_si=document.getElementById('sphotoImg');if(_ph&&_sp){_sp.style.display='block';_si.src=_ph}else if(_sp){_sp.style.display='none'};sh.className='shint rh';sh.textContent='🍚 决定了！就吃这个！';isSpin=!1;roll.disabled=!1;lastResult=items[ri];recBtn.disabled=!1;recText.textContent='✅ 记录今天吃了「'+lastResult+'」';fc();pr();return}if(p>.8&&ri===-1)ri=Math.floor(Math.random()*items.length);let idx;if(ri!==-1&&Math.random()<eo2)idx=ri;else idx=Math.floor(Math.random()*items.length);sd.textContent=items[idx];pt();setTimeout(st,iv*(1+eo2*1.5))}st()}
 
 // ===== Record history =====
 async function recHist(){if(!lastResult)return;const n=new Date();const d=n.toISOString().slice(0,10);const t=n.toTimeString().slice(0,5);const h={n:lastResult,d:d,t:t};const food=await dbGetFood(lastResult);if(food&&food.p)h.p=food.p;await dbAddHist(h);recBtn.disabled=!0;recText.textContent='✅ 已记录！'+d;const o=recBtn.textContent;setTimeout(()=>{recBtn.disabled=!1;recText.textContent='✅ 记录今天吃了「'+lastResult+'」'},2000);await renderHist()}
@@ -290,6 +368,183 @@ $('clearBtn').addEventListener('click',clearAll);
 $('st').addEventListener('click',()=>{se=!se;$('st').textContent=se?'🔊':'🔇';$('st').classList.toggle('muted',!se);if(se)ai()});
 document.addEventListener('click',()=>ai(),{once:true});
 
+
+// ===== City food data =====
+const CITY_FOODS = {
+  '北京':[['🦆','烤鸭','皮脆肉嫩'],['🍜','炸酱面','老北京味道'],['🥟','卤煮','地道小吃']],
+  '上海':[['🥟','生煎','底部焦脆'],['🥟','小笼包','一口爆汁'],['🍜','葱油拌面','简单美味']],
+  '成都':[['🔥','火锅','麻辣鲜香'],['🍢','串串','万物可串'],['🍜','担担面','正宗川味']],
+  '重庆':[['🔥','重庆火锅','九宫格'],['🍜','小面','麻辣过瘾'],['🐟','烤鱼','外焦里嫩']],
+  '广州':[['🥟','肠粉','滑嫩爽口'],['🫖','早茶','一盅两件'],['🦆','烧鹅','皮脆多汁']],
+  '深圳':[['🦐','砂锅粥','鲜甜暖胃'],['🥟','肠粉','广式经典'],['🐟','酸菜鱼','开胃下饭']],
+  '杭州':[['🐟','西湖醋鱼','酸甜可口'],['🍜','片儿川','杭州面魂'],['🥟','小笼包','江南风味']],
+  '南京':[['🦆','盐水鸭','金陵经典'],['🥟','鸭血粉丝','鲜美浓郁'],['🍜','皮肚面','老南京味']],
+  '武汉':[['🍜','热干面','过早首选'],['🦆','鸭脖','啃着过瘾'],['🥟','豆皮','外脆里糯']],
+  '长沙':[['🌶️','剁椒鱼头','湘菜经典'],['🍜','米粉','嗦粉快乐'],['🦞','口味虾','夜市王者']],
+  '西安':[['🍜','羊肉泡馍','西北硬菜'],['🥟','肉夹馍','腊汁肉香'],['🍜','油泼面','筋道爽口']],
+  '兰州':[['🍜','兰州拉面','一清二白'],['🥟','酿皮','酸辣开胃'],['🐑','手抓羊肉','原汁原味']],
+  '昆明':[['🍜','过桥米线','滚烫鲜香'],['🌸','鲜花饼','甜而不腻'],['🍄','菌子火锅','山珍之味']],
+  '哈尔滨':[['🍚','锅包肉','酸甜酥脆'],['🥟','饺子','皮薄馅大'],['🍖','酱骨','大口吃肉']],
+};
+const DEF_RECS = [['🍜','麻辣烫','随心搭配'],['🥟','饺子','百吃不厌'],['🍚','盖浇饭','简单管饱'],['🍜','米线','嗦粉快乐'],['🍕','披萨','西式快餐'],['🍣','寿司','清爽轻食']];
+const NEARBY_SIM = [
+  ['🔥','步行街热门美食街','距你约1.2km · 20+家餐馆',true],
+  ['🍜','本周人气王-螺蛳粉','周边87人最近吃过',true],
+  ['🥟','巷子新开的东北饺子馆','新店开业 · 好评4.8分',true],
+  ['🍢','步行可达的砂锅串串','距你约800m · 人均¥35',true],
+];
+
+// ===== Geolocation =====
+let userCity = null;
+let cityCached = false;
+
+function getCityFromCache() {
+  try {
+    const c = localStorage.getItem('lunchCity');
+    const t = localStorage.getItem('lunchCityTime');
+    if (c && t && Date.now() - parseInt(t) < 86400000) { // 24h cache
+      userCity = c;
+      cityCached = true;
+      return c;
+    }
+  } catch {}
+  return null;
+}
+
+function cacheCity(city) {
+  try {
+    localStorage.setItem('lunchCity', city);
+    localStorage.setItem('lunchCityTime', Date.now().toString());
+  } catch {}
+}
+
+async function detectCity() {
+  const cached = getCityFromCache();
+  if (cached) { renderDiscover(cached); return; }
+  
+  if (!navigator.geolocation) {
+    renderDiscover(null, '您的浏览器不支持定位');
+    return;
+  }
+  
+  navigator.geolocation.getCurrentPosition(
+    async (pos) => {
+      try {
+        const r = await fetch(
+          'https://nominatim.openstreetmap.org/reverse?format=json&lat=' + pos.coords.latitude + '&lon=' + pos.coords.longitude + '&accept-language=zh',
+          { headers: { 'User-Agent': 'LunchPicker/1.0' } }
+        );
+        const data = await r.json();
+        const addr = data.address;
+        // Try to extract city from various possible fields
+        let city = addr.city || addr.town || addr.county || addr.state || '';
+        // Clean up city name (remove "市" suffix)
+        city = city.replace(/市$/, '');
+        
+        // Check if we know this city
+        const matched = Object.keys(CITY_FOODS).find(k => city.includes(k));
+        if (matched) {
+          userCity = matched;
+        } else if (city) {
+          userCity = city;
+        }
+        cacheCity(userCity || '');
+        renderDiscover(userCity);
+      } catch (e) {
+        renderDiscover(null, '获取位置信息失败');
+      }
+    },
+    () => { renderDiscover(null, '无法获取位置，可手动设置'); },
+    { timeout: 10000, enableHighAccuracy: false }
+  );
+}
+
+function renderDiscover(city, err) {
+  const body = document.getElementById('discBody');
+  const cityEl = document.getElementById('dcity');
+  
+  if (err) {
+    cityEl.textContent = '📍 未定位';
+    body.innerHTML = '<div class="disc-error">' + err + '<br><button class="disc-loc-btn" onclick="promptCity()">点此手动输入城市</button></div>';
+    return;
+  }
+  
+  if (city && CITY_FOODS[city]) {
+    cityEl.textContent = '📍 ' + city;
+    const foods = CITY_FOODS[city];
+    const now = new Date();
+    const hour = now.getHours();
+    let greeting;
+    if (hour < 6) greeting = ['🌙','夜深了，加个夜宵吧'];
+    else if (hour < 9) greeting = ['🌅','早上好！来份早餐'];
+    else if (hour < 11) greeting = ['☀️','上午好，想想中午吃什么'];
+    else if (hour < 14) greeting = ['🍚','中午了！该吃饭啦'];
+    else if (hour < 17) greeting = ['☕','下午茶时间~'];
+    else greeting = ['🌆','晚餐时间，想吃点好的'];
+    
+    body.innerHTML = '<div class="disc-greeting"><span class="emo">' + greeting[0] + '</span> ' + greeting[1] + '</div>' +
+      '<div class="disc-rec">' + foods.map(f => 
+        '<div class="d-rec-c"><span class="r-emo">' + f[0] + '</span><span class="r-name">' + f[1] + '</span><span class="r-desc">' + f[2] + '</span></div>'
+      ).join('') + '</div>' +
+      '<div class="disc-nearby">' + 
+      '<div style="font-size:12px;font-weight:600;color:#9a8c80;margin-top:6px;margin-bottom:2px">🔥 ' + city + '附近热门</div>' +
+      NEARBY_SIM.slice(0,3).map(n => 
+        '<div class="d-near-item"><span class="ni-emo">' + n[0] + '</span><div class="ni-info"><div class="ni-name">' + n[1] + '</div><div class="ni-desc">' + n[2] + '</div></div>' + (n[3] ? '<span class="ni-tag">热门</span>' : '') + '</div>'
+      ).join('') + '</div>';
+  } else if (city) {
+    cityEl.textContent = '📍 ' + city;
+    body.innerHTML = '<div class="disc-greeting"><span class="emo">🍽️</span> 发现一些好吃的</div>' +
+      '<div class="disc-rec">' + DEF_RECS.slice(0,6).map(f =>
+        '<div class="d-rec-c"><span class="r-emo">' + f[0] + '</span><span class="r-name">' + f[1] + '</span><span class="r-desc">' + f[2] + '</span></div>'
+      ).join('') + '</div>';
+  } else {
+    cityEl.textContent = '📍 发现美食';
+    body.innerHTML = '<div class="disc-rec">' + DEF_RECS.slice(0,6).map(f =>
+      '<div class="d-rec-c"><span class="r-emo">' + f[0] + '</span><span class="r-name">' + f[1] + '</span><span class="r-desc">' + f[2] + '</span></div>'
+    ).join('') + '</div>';
+  }
+}
+
+function promptCity() {
+  const c = prompt('输入你所在的城市名（如：成都、北京、上海）');
+  if (c && c.trim()) {
+    cacheCity(c.trim());
+    renderDiscover(c.trim());
+  }
+}
+
+// Init location on pick tab show + on load
+document.querySelector('.tab[data-tab="pick"]').addEventListener('click', function al() {
+  this.removeEventListener('click', al);
+  setTimeout(detectCity, 300);
+});
+setTimeout(detectCity, 1000);
+
+
+// ===== Share =====
+const SHARE_URL = 'https://lunch-picker.github.io/lunch-picker/';
+document.getElementById('shareBtn').addEventListener('click', async () => {
+  if (navigator.share) {
+    try { await navigator.share({ title: '🍜 今天中午吃什么', text: '每天中午不知道吃什么？摇一摇让命运替你决定！', url: SHARE_URL }); } catch {}
+  } else { cpUrl(); showTost('已复制链接，快去分享吧 📤'); }
+});
+document.getElementById('copyBtn').addEventListener('click', cpUrl);
+document.getElementById('saveQrBtn').addEventListener('click', () => {
+  const a = document.createElement('a'); a.href = document.getElementById('qrImg').src; a.download = 'lunch-qr.png'; a.click();
+});
+function cpUrl() {
+  if (navigator.clipboard) navigator.clipboard.writeText(SHARE_URL).then(() => showTost('✅ 链接已复制！')).catch(() => {});
+}
+function showTost(msg) {
+  let t = document.getElementById('tost');
+  if (!t) {
+    t = document.createElement('div'); t.id = 'tost';
+    t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#431407;color:#fff;padding:10px 24px;border-radius:14px;font-size:14px;font-weight:600;z-index:999;opacity:0;transition:opacity .3s;max-width:80%;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,.2)';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg; t.style.opacity = '1';
+  setTimeout(() => { t.style.opacity = '0'; }, 2000);
+}
 // ===== Init =====
 init();
 </script>
