@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>🍜 今天中午吃什么</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "PingFang SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #fff5e6;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    position: relative;
+    overflow-x: hidden;
+  }
+  .bg-deco { position: fixed; font-size: 40px; opacity: 0.15; pointer-events: none; animation: floatUp 12s infinite ease-in-out; }
+  .bg-deco:nth-child(1) { top: 5%; left: 5%; animation-delay: 0s; }
+  .bg-deco:nth-child(2) { top: 15%; right: 8%; animation-delay: 2s; font-size: 32px; }
+  .bg-deco:nth-child(3) { bottom: 20%; left: 3%; animation-delay: 4s; font-size: 36px; }
+  .bg-deco:nth-child(4) { bottom: 8%; right: 5%; animation-delay: 6s; }
+  .bg-deco:nth-child(5) { top: 50%; left: 2%; animation-delay: 8s; font-size: 28px; }
+  .bg-deco:nth-child(6) { top: 40%; right: 3%; animation-delay: 10s; font-size: 30px; }
+  @keyframes floatUp {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-12px) rotate(5deg); }
+    50% { transform: translateY(-6px) rotate(-3deg); }
+    75% { transform: translateY(-18px) rotate(4deg); }
+  }
+  .app { width: 100%; max-width: 440px; background: #fffaf3; border-radius: 32px; box-shadow: 0 8px 32px rgba(234, 88, 12, 0.10), 0 2px 8px rgba(0,0,0,0.04); padding: 28px 24px 32px; position: relative; z-index: 1; border: 2px solid #ffdbb5; }
+  .sound-toggle { position: absolute; top: 10px; right: 12px; width: 36px; height: 36px; border-radius: 50%; border: 2px solid #fbd7b5; background: #fffaf3; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.15s, transform 0.12s; z-index: 5; }
+  .sound-toggle:hover { background: #fef3e9; transform: scale(1.08); }
+  .sound-toggle.muted { opacity: 0.4; }
+  .header { display: flex; flex-direction: column; align-items: center; margin-bottom: 24px; }
+  .mascot-wrap { position: relative; width: 90px; height: 90px; margin-bottom: 6px; animation: mascotBounce 2.5s ease-in-out infinite; }
+  @keyframes mascotBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  .mascot-sweat { position: absolute; top: -4px; right: -2px; font-size: 18px; animation: sweatDrop 2s ease-in-out infinite; opacity: 0; }
+  @keyframes sweatDrop { 0%, 80%, 100% { opacity: 0; transform: translateY(0); } 85% { opacity: 1; transform: translateY(0); } 95% { opacity: 1; transform: translateY(6px); } }
+  h1 { font-size: 26px; font-weight: 800; background: linear-gradient(135deg, #ea580c, #f97316); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: 2px; }
+  .subtitle { text-align: center; color: #baa08a; font-size: 14px; margin-top: 2px; font-weight: 500; }
+  .slot-box { background: linear-gradient(180deg, #fef6ec 0%, #fceddc 100%); border: 2.5px solid #fbd7b5; border-radius: 24px; padding: 28px 16px 22px; text-align: center; margin-bottom: 20px; position: relative; overflow: hidden; box-shadow: inset 0 2px 8px rgba(234,88,12,0.06); }
+  .slot-box::before { content: '\2728'; position: absolute; top: 8px; left: 16px; font-size: 16px; opacity: 0.5; animation: sparkle 3s ease-in-out infinite; }
+  .slot-box::after { content: '\2728'; position: absolute; top: 8px; right: 16px; font-size: 16px; opacity: 0.5; animation: sparkle 3s ease-in-out infinite 1.5s; }
+  @keyframes sparkle { 0%, 100% { opacity: 0.3; transform: scale(0.8) rotate(0deg); } 50% { opacity: 0.8; transform: scale(1.1) rotate(20deg); } }
+  .slot-text { font-size: 34px; font-weight: 800; color: #431407; transition: all 0.08s; word-break: break-word; min-height: 56px; display: flex; align-items: center; justify-content: center; }
+  .slot-text.spinning { opacity: 0.4; transform: scale(0.95); }
+  .slot-text.result { color: #ea580c; font-size: 40px; animation: resultPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  @keyframes resultPop { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+  .slot-hint { font-size: 14px; color: #baa08a; margin-top: 8px; min-height: 22px; font-weight: 500; }
+  .slot-hint.result-hint { color: #ea580c; font-weight: 700; }
+  .confetti-container { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+  .confetti { position: absolute; width: 8px; height: 8px; border-radius: 50%; animation: confettiFall 1.2s ease-out forwards; }
+  @keyframes confettiFall { 0% { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); } 100% { opacity: 0; transform: translateY(120px) scale(0.3) rotate(360deg); } }
+  .roll-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 16px; background: linear-gradient(135deg, #f97316, #ea580c); color: #fff; border: none; border-radius: 18px; font-size: 20px; font-weight: 800; cursor: pointer; transition: transform 0.15s, box-shadow 0.2s; letter-spacing: 3px; margin-bottom: 24px; box-shadow: 0 6px 20px rgba(234, 88, 12, 0.30), 0 2px 4px rgba(234, 88, 12, 0.15); position: relative; overflow: hidden; }
+  .roll-btn::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.15), transparent 60%); }
+  .roll-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(234, 88, 12, 0.35), 0 2px 6px rgba(234, 88, 12, 0.15); }
+  .roll-btn:active { transform: translateY(0) scale(0.97); box-shadow: 0 2px 8px rgba(234, 88, 12, 0.25); }
+  .roll-btn:disabled { background: #d6d3d1; box-shadow: none; cursor: not-allowed; transform: none !important; }
+  .roll-btn .btn-icon { font-size: 24px; line-height: 1; }
+  .menu-section { background: #fcf5ee; border-radius: 20px; padding: 18px 16px; border: 2px solid #f5e4d4; }
+  .section-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+  .section-header .icon { font-size: 18px; }
+  .section-header .label { font-size: 15px; font-weight: 700; color: #57534e; }
+  .section-header .count { margin-left: auto; font-size: 13px; color: #baa08a; font-weight: 600; background: #f5e4d4; padding: 2px 10px; border-radius: 12px; }
+  .tag-list { display: flex; flex-wrap: wrap; gap: 8px; min-height: 44px; padding: 4px 0; margin-bottom: 12px; }
+  .tag-list:empty::before { content: '\8fd8\6ca1\6709\83dc\54c1\uff0c\52a0\4e00\4e9b\5427 \1f373'; color: #d6c4b8; font-size: 14px; font-style: italic; width: 100%; text-align: center; padding: 8px 0; }
+  .tag { display: inline-flex; align-items: center; gap: 6px; background: #fff; border: 1.5px solid #fbd7b5; border-radius: 100px; padding: 7px 14px 7px 16px; font-size: 14px; font-weight: 600; color: #431407; box-shadow: 0 2px 4px rgba(234,88,12,0.06); transition: transform 0.15s, box-shadow 0.15s; }
+  .tag:hover { transform: translateY(-1px); box-shadow: 0 3px 8px rgba(234,88,12,0.10); }
+  .tag .del { width: 20px; height: 20px; border-radius: 50%; border: none; background: #f5e4d4; color: #9a8a7a; cursor: pointer; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; transition: background 0.15s, color 0.15s, transform 0.12s; flex-shrink: 0; }
+  .tag .del:hover { background: #fca5a5; color: #991b1b; transform: scale(1.1); }
+  .add-row { display: flex; gap: 8px; align-items: center; }
+  .add-row input { flex: 1; padding: 11px 16px; border: 2px solid #f5e4d4; border-radius: 16px; font-size: 15px; outline: none; transition: border-color 0.2s, box-shadow 0.2s; background: #fff; font-weight: 500; }
+  .add-row input:focus { border-color: #f97316; box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.12); }
+  .add-row input::placeholder { color: #d6c4b8; }
+  .add-row button { padding: 11px 22px; background: linear-gradient(135deg, #fbd7b5, #fccb9b); color: #7a4a2a; border: none; border-radius: 16px; font-size: 15px; font-weight: 700; cursor: pointer; transition: transform 0.12s, box-shadow 0.15s; white-space: nowrap; letter-spacing: 1px; box-shadow: 0 2px 6px rgba(234,88,12,0.10); }
+  .add-row button:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(234,88,12,0.15); }
+  .add-row button:active { transform: scale(0.96); }
+  .empty-warning { color: #ea580c; font-size: 13px; text-align: center; margin-top: 10px; min-height: 20px; font-weight: 600; }
+  .footer-actions { display: flex; justify-content: center; gap: 16px; margin-top: 14px; }
+  .footer-actions button { background: none; border: none; color: #baa08a; font-size: 13px; cursor: pointer; font-weight: 500; padding: 4px 8px; border-radius: 8px; transition: background 0.15s, color 0.15s; }
+  .footer-actions button:hover { background: #f5e4d4; color: #7a4a2a; }
+</style>
+</head>
+<body>
+<div class="bg-deco">🍝</div>
+<div class="bg-deco">🥟</div>
+<div class="bg-deco">🍜</div>
+<div class="bg-deco">🍛</div>
+<div class="bg-deco">🥘</div>
+<div class="bg-deco">🍣</div>
+
+<div class="app" style="position:relative">
+  <button class="sound-toggle" id="soundToggle" title="音效开关">🔊</button>
+
+  <div class="header">
+    <div class="mascot-wrap">
+      <svg width="90" height="90" viewBox="0 0 90 90" fill="none">
+        <ellipse cx="45" cy="52" rx="32" ry="26" fill="#FBD7B5"/>
+        <ellipse cx="45" cy="52" rx="28" ry="22" fill="#FFF5E6"/>
+        <ellipse cx="45" cy="34" rx="32" ry="10" fill="#FCCB9B"/>
+        <ellipse cx="45" cy="34" rx="28" ry="8" fill="#FFF5E6"/>
+        <path d="M28 22 Q26 16 30 12 Q34 8 32 2" stroke="#D4A88C" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.5">
+          <animate attributeName="d" values="M28 22 Q26 16 30 12 Q34 8 32 2;M28 22 Q24 14 30 10 Q36 6 32 0;M28 22 Q26 16 30 12 Q34 8 32 2" dur="2s" repeatCount="indefinite"/>
+        </path>
+        <path d="M44 18 Q42 12 46 8 Q50 4 48 -2" stroke="#D4A88C" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.5">
+          <animate attributeName="d" values="M44 18 Q42 12 46 8 Q50 4 48 -2;M44 18 Q40 10 46 6 Q52 2 48 -4;M44 18 Q42 12 46 8 Q50 4 48 -2" dur="2.5s" repeatCount="indefinite"/>
+        </path>
+        <path d="M58 22 Q60 16 56 12 Q52 8 56 2" stroke="#D4A88C" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.5">
+          <animate attributeName="d" values="M58 22 Q60 16 56 12 Q52 8 56 2;M58 22 Q62 14 56 10 Q50 6 56 0;M58 22 Q60 16 56 12 Q52 8 56 2" dur="1.8s" repeatCount="indefinite"/>
+        </path>
+        <circle cx="37" cy="44" r="3.5" fill="#431407"/>
+        <circle cx="35.5" cy="42.5" r="1.2" fill="#fff" opacity="0.8"/>
+        <circle cx="53" cy="44" r="3.5" fill="#431407"/>
+        <circle cx="51.5" cy="42.5" r="1.2" fill="#fff" opacity="0.8"/>
+        <ellipse cx="31" cy="51" rx="6" ry="3.5" fill="#FCA5A5" opacity="0.35"/>
+        <ellipse cx="59" cy="51" rx="6" ry="3.5" fill="#FCA5A5" opacity="0.35"/>
+        <path d="M39 54 Q45 59 51 54" stroke="#431407" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <rect x="70" y="38" width="4" height="20" rx="2" fill="#D4A88C" transform="rotate(25, 72, 38)"/>
+        <ellipse cx="72" cy="35" rx="7" ry="5" fill="#FCCB9B" transform="rotate(25, 72, 38)"/>
+      </svg>
+      <span class="mascot-sweat">💦</span>
+    </div>
+    <h1>🍜 中午吃什么</h1>
+    <p class="subtitle">每天的灵魂拷问，交给命运吧</p>
+  </div>
+
+  <div class="slot-box">
+    <div class="slot-text" id="slotDisplay">今天想吃什么？</div>
+    <div class="slot-hint" id="slotHint">点击下面按钮让命运替你决定</div>
+    <div class="confetti-container" id="confettiContainer"></div>
+  </div>
+
+  <button class="roll-btn" id="rollBtn">
+    <span class="btn-icon">🎲</span>
+    <span>转一下</span>
+  </button>
+
+  <div class="menu-section">
+    <div class="section-header">
+      <span class="icon">📋</span>
+      <span class="label">候选菜单</span>
+      <span class="count" id="itemCount">16 个菜</span>
+    </div>
+    <div class="tag-list" id="tagList"></div>
+    <div class="add-row">
+      <input type="text" id="foodInput" placeholder="输入菜品，比如 麻辣烫" maxlength="20">
+      <button id="addBtn">添加</button>
+    </div>
+    <div class="empty-warning" id="warning"></div>
+    <div class="footer-actions">
+      <button id="resetBtn">🔄 恢复默认菜单</button>
+      <button id="clearBtn">🗑️ 清空菜单</button>
+    </div>
+  </div>
+
+    <img src="data:image/png;base64,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" alt="QR Code" style="width:130px;height:130px;border-radius:12px;display:block;margin:0 auto;">
+    <div style="font-size:11px;color:#d6c4b8;margin-top:6px;">
+      确保手机和电脑连同一个 WiFi<br>
+      或用微信/QQ把文件发到手机上
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+  // ===== Sound Engine - fully offline, no audio files needed =====
+  let audioCtx = null;
+  let soundEnabled = true;
+
+  function initAudio() {
+    if (!audioCtx) {
+      try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
+    }
+  }
+
+  // Short tick - like slot machine reel click
+  function playTick() {
+    if (!soundEnabled || !audioCtx) return;
+    try {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = 700 + Math.random() * 500;
+      gain.gain.setValueAtTime(0.07, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
+      osc.connect(gain).connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.04);
+    } catch(e) {}
+  }
+
+  // Victory chime: C5 -> E5 -> G5 -> shimmer
+  function playResult() {
+    if (!soundEnabled || !audioCtx) return;
+    try {
+      const notes = [523.25, 659.25, 783.99];
+      notes.forEach((freq, i) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0, audioCtx.currentTime + i * 0.1);
+        gain.gain.linearRampToValueAtTime(0.11, audioCtx.currentTime + i * 0.1 + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + i * 0.1 + 0.3);
+        osc.connect(gain).connect(audioCtx.destination);
+        osc.start(audioCtx.currentTime + i * 0.1);
+        osc.stop(audioCtx.currentTime + i * 0.1 + 0.3);
+      });
+      const o2 = audioCtx.createOscillator();
+      const g2 = audioCtx.createGain();
+      o2.type = 'sine';
+      o2.frequency.value = 1567.98;
+      g2.gain.setValueAtTime(0, audioCtx.currentTime + 0.3);
+      g2.gain.linearRampToValueAtTime(0.05, audioCtx.currentTime + 0.35);
+      g2.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.7);
+      o2.connect(g2).connect(audioCtx.destination);
+      o2.start(audioCtx.currentTime + 0.3);
+      o2.stop(audioCtx.currentTime + 0.7);
+    } catch(e) {}
+  }
+
+  // ===== App State =====
+  const DEFAULTS = [
+    '麻辣烫', '兰州拉面', '黄焖鸡', '沙县小吃',
+    '米线', '炸酱面', '盖浇饭', '螺蛳粉',
+    '饺子', '煲仔饭', '酸菜鱼', '烧腊饭',
+    '桂林米粉', '凉皮', '披萨', '关东煮'
+  ];
+  let items = [];
+  let isSpinning = false;
+
+  const $ = id => document.getElementById(id);
+  const slotDisplay = $('slotDisplay'), slotHint = $('slotHint'), rollBtn = $('rollBtn');
+  const tagList = $('tagList'), foodInput = $('foodInput'), addBtn = $('addBtn');
+  const warning = $('warning'), itemCount = $('itemCount'), confettiContainer = $('confettiContainer');
+  const resetBtn = $('resetBtn'), clearBtn = $('clearBtn'), soundToggle = $('soundToggle');
+
+  // ===== Sound Toggle =====
+  soundToggle.addEventListener('click', () => {
+    soundEnabled = !soundEnabled;
+    soundToggle.textContent = soundEnabled ? '🔊' : '🔇';
+    soundToggle.classList.toggle('muted', !soundEnabled);
+    if (soundEnabled) initAudio();
+  });
+  document.addEventListener('click', () => initAudio(), { once: true });
+
+  // ===== Persistence =====
+  function loadItems() {
+    const saved = localStorage.getItem('lunchItems');
+    if (saved) { try { items = JSON.parse(saved); } catch { items = [...DEFAULTS]; } }
+    else { items = [...DEFAULTS]; }
+  }
+  function saveItems() { localStorage.setItem('lunchItems', JSON.stringify(items)); }
+  function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+  // ===== Render =====
+  function renderTags() {
+    tagList.innerHTML = '';
+    if (items.length) {
+      items.forEach((n, i) => {
+        const t = document.createElement('span');
+        t.className = 'tag';
+        t.innerHTML = esc(n) + '<button class="del" data-index="' + i + '">✕</button>';
+        tagList.appendChild(t);
+      });
+      tagList.querySelectorAll('.del').forEach(b => b.addEventListener('click', () => {
+        items.splice(+b.dataset.index, 1); saveItems(); renderTags(); clearResult();
+      }));
+    }
+    itemCount.textContent = items.length + ' 个菜';
+  }
+
+  function clearResult() {
+    slotDisplay.className = 'slot-text';
+    slotDisplay.textContent = items.length ? '今天想吃什么？' : '先加几个菜吧 ✍️';
+    slotHint.className = 'slot-hint';
+    slotHint.textContent = items.length ? '点击下面按钮让命运替你决定' : '菜单是空的，添一些菜品吧';
+  }
+
+  function fireConfetti() {
+    const colors = ['#f97316','#fca5a5','#facc15','#4ade80','#60a5fa','#c084fc','#f472b6'];
+    for (let i = 0; i < 30; i++) {
+      const el = document.createElement('div');
+      el.className = 'confetti';
+      el.style.left = Math.random() * 100 + '%';
+      el.style.top = Math.random() * 40 + '%';
+      el.style.background = colors[Math.floor(Math.random() * colors.length)];
+      el.style.width = (4 + Math.random() * 8) + 'px';
+      el.style.height = (4 + Math.random() * 8) + 'px';
+      el.style.animationDuration = (0.6 + Math.random() * 0.8) + 's';
+      el.style.animationDelay = Math.random() * 0.3 + 's';
+      confettiContainer.appendChild(el);
+    }
+    setTimeout(() => { confettiContainer.innerHTML = ''; }, 2000);
+  }
+
+  // ===== Spin! =====
+  function spin() {
+    if (isSpinning) return;
+    if (items.length === 0) { warning.textContent = '⚠️ 候选菜单是空的，先加几个菜吧！'; return; }
+    warning.textContent = '';
+    isSpinning = true;
+    rollBtn.disabled = true;
+    slotDisplay.className = 'slot-text spinning';
+    slotHint.className = 'slot-hint';
+    slotHint.textContent = '🤔 让我想想……';
+    initAudio();
+
+    const duration = 2200, interval = 60;
+    const totalTicks = Math.floor(duration / interval);
+    let tick = 0;
+    let resultIndex = -1;
+
+    function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+
+    function step() {
+      tick++;
+      const progress = tick / totalTicks;
+      const eased = easeOutCubic(Math.min(progress, 1));
+
+      if (progress >= 1) {
+        slotDisplay.className = 'slot-text result';
+        slotDisplay.textContent = items[resultIndex];
+        slotHint.className = 'slot-hint result-hint';
+        slotHint.textContent = '🍚 决定了！就吃这个！';
+        isSpinning = false; rollBtn.disabled = false;
+        fireConfetti();
+        playResult();
+        return;
+      }
+
+      if (progress > 0.8 && resultIndex === -1) {
+        resultIndex = Math.floor(Math.random() * items.length);
+      }
+
+      let idx;
+      if (resultIndex !== -1 && Math.random() < eased) {
+        idx = resultIndex;
+      } else {
+        idx = Math.floor(Math.random() * items.length);
+      }
+
+      slotDisplay.textContent = items[idx];
+      playTick();
+
+      setTimeout(step, interval * (1 + eased * 1.5));
+    }
+
+    step();
+  }
+
+  // ===== Add / Reset =====
+  function addItem() {
+    const val = foodInput.value.trim();
+    if (!val) return;
+    if (items.includes(val)) { warning.textContent = '"' + val + '" 已经在列表里啦 🫢'; return; }
+    items.push(val); saveItems(); renderTags();
+    foodInput.value = ''; foodInput.focus();
+    warning.textContent = ''; clearResult();
+  }
+
+  function resetToDefault() {
+    if (items.length && !confirm('恢复默认会覆盖当前菜单，确定吗？')) return;
+    items = [...DEFAULTS]; saveItems(); renderTags(); clearResult();
+    warning.textContent = '✅ 已恢复默认菜单';
+    setTimeout(() => { warning.textContent = ''; }, 2000);
+  }
+  function clearAll() {
+    if (!items.length) return;
+    if (!confirm('确定要清空所有菜品吗？')) return;
+    items = []; saveItems(); renderTags(); clearResult();
+    warning.textContent = '🗑️ 菜单已清空';
+    setTimeout(() => { warning.textContent = ''; }, 2000);
+  }
+
+  // ===== Events =====
+  rollBtn.addEventListener('click', spin);
+  addBtn.addEventListener('click', addItem);
+  foodInput.addEventListener('keydown', e => { if (e.key === 'Enter') addItem(); });
+  resetBtn.addEventListener('click', resetToDefault);
+  clearBtn.addEventListener('click', clearAll);
+
+  // ===== Init =====
+  loadItems(); renderTags(); clearResult();
+</script>
+</body>
+</html>
