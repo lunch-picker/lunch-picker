@@ -6,390 +6,494 @@
 <title>🍜 今天中午吃什么</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:"PingFang SC",-apple-system,BlinkMacSystemFont,sans-serif;background:#fff5e6;min-height:100vh;overflow-x:hidden}
-.bg-deco{position:fixed;font-size:40px;opacity:.15;pointer-events:none;animation:floatUp 12s infinite ease-in-out}
-.bg-deco:nth-child(1){top:5%;left:5%}
-.bg-deco:nth-child(2){top:15%;right:8%;font-size:32px;animation-delay:2s}
-.bg-deco:nth-child(3){bottom:20%;left:3%;font-size:36px;animation-delay:4s}
-.bg-deco:nth-child(4){bottom:8%;right:5%;animation-delay:6s}
-.bg-deco:nth-child(5){top:50%;left:2%;font-size:28px;animation-delay:8s}
-.bg-deco:nth-child(6){top:40%;right:3%;font-size:30px;animation-delay:10s}
-@keyframes floatUp{0%,100%{transform:translateY(0)rotate(0deg)}25%{transform:translateY(-12px)rotate(5deg)}50%{transform:translateY(-6px)rotate(-3deg)}75%{transform:translateY(-18px)rotate(4deg)}}
-.app{width:100%;max-width:440px;margin:16px auto;background:#fffaf3;border-radius:32px;box-shadow:0 8px 32px rgba(234,88,12,.1),0 2px 8px rgba(0,0,0,.04);padding:24px 20px 8px;border:2px solid #ffdbb5;position:relative}
-/* Sound toggle */
-.st{position:absolute;top:10px;right:12px;width:36px;height:36px;border-radius:50%;border:2px solid #fbd7b5;background:#fffaf3;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;z-index:5;transition:.15s}
-.st:hover{background:#fef3e9;transform:scale(1.08)}
+body{font-family:"PingFang SC",-apple-system,sans-serif;background:#fff5e6;min-height:100vh}
+.app{width:100%;max-width:440px;margin:16px auto;background:#fffaf3;border-radius:32px;padding:24px 20px 8px;border:2px solid #ffdbb5;position:relative}
+.st{position:absolute;top:10px;right:12px;width:36px;height:36px;border-radius:50%;border:2px solid #fbd7b5;background:#fffaf3;cursor:pointer;font-size:16px;z-index:5}
 .st.muted{opacity:.4}
-/* Header */
 .hdr{display:flex;flex-direction:column;align-items:center;margin-bottom:16px}
-.mw{width:80px;height:80px;margin-bottom:4px;animation:mBounce 2.5s ease-in-out infinite}
-@keyframes mBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-h1{font-size:24px;font-weight:800;background:linear-gradient(135deg,#ea580c,#f97316);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:2px}
-.sub{text-align:center;color:#baa08a;font-size:13px;font-weight:500}
-/* Slot */
-.slot{background:linear-gradient(180deg,#fef6ec,#fceddc);border:2.5px solid #fbd7b5;border-radius:24px;padding:22px 16px 16px;text-align:center;margin-bottom:16px;position:relative;overflow:hidden}
-.slot::before{content:'\2728';position:absolute;top:6px;left:14px;font-size:14px;opacity:.5;animation:sprk 3s ease-in-out infinite}
-.slot::after{content:'\2728';position:absolute;top:6px;right:14px;font-size:14px;opacity:.5;animation:sprk 3s ease-in-out infinite 1.5s}
-@keyframes sprk{0%,100%{opacity:.3;transform:scale(.8)rotate(0)}50%{opacity:.8;transform:scale(1.1)rotate(20deg)}}
-.stxt{font-size:30px;font-weight:800;color:#431407;transition:.08s;word-break:break-word;min-height:48px;display:flex;align-items:center;justify-content:center}
-.stxt.spinning{opacity:.4;transform:scale(.95)}
+h1{font-size:24px;font-weight:800;background:linear-gradient(135deg,#ea580c,#f97316);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sub{text-align:center;color:#baa08a;font-size:13px}
+.slot{background:linear-gradient(180deg,#fef6ec,#fceddc);border:2.5px solid #fbd7b5;border-radius:24px;padding:22px 16px 16px;text-align:center;margin-bottom:12px;position:relative}
+.stxt{font-size:30px;font-weight:800;color:#431407;min-height:48px;transition:.08s}
+.stxt.spinning{opacity:.4}
 .stxt.result{color:#ea580c;font-size:36px;animation:rPop .5s cubic-bezier(.34,1.56,.64,1)}
 @keyframes rPop{0%{transform:scale(.5);opacity:0}100%{transform:scale(1);opacity:1}}
-.shint{font-size:13px;color:#baa08a;margin-top:6px;min-height:20px;font-weight:500}
+.shint{font-size:13px;color:#baa08a;margin-top:6px;min-height:20px}
 .shint.rh{color:#ea580c;font-weight:700}
+.sphoto{display:none;margin-top:8px}
+.sphoto img{width:100%;max-height:160px;border-radius:14px;object-fit:cover;border:2px solid #fbd7b5;animation:photoIn .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes photoIn{0%{transform:scale(.8);opacity:0}100%{transform:scale(1);opacity:1}}
+.roll{width:100%;padding:14px;background:linear-gradient(135deg,#f97316,#ea580c);color:#fff;border:none;border-radius:18px;font-size:18px;font-weight:800;cursor:pointer;margin-bottom:8px}
+.roll:disabled{background:#d6d3d1}
+.rec-btn{width:100%;padding:12px;background:#fff;border:2px solid #fbd7b5;border-radius:14px;font-size:15px;font-weight:700;color:#431407;cursor:pointer;margin-bottom:8px}
+.rec-btn:disabled{opacity:.4}
+.share-sec{margin-top:14px;padding-top:12px;border-top:2px dashed #f5e4d4;display:flex;flex-direction:column;align-items:center}
+
+.share-sec .sh-qr-wrap{display:inline-block;padding:18px 18px 12px;background:linear-gradient(180deg,#fffaf3,#fff5e6);border-radius:20px;border:2px solid #fbd7b5}
+.share-sec .sh-qr-wrap img{width:150px;height:150px;border-radius:10px}
+.share-sec .sh-qr-wrap .sh-label{font-size:10px;color:#baa08a;margin-top:6px}
+.share-sec .sh-btn{padding:10px 28px;background:linear-gradient(135deg,#f97316,#ea580c);color:#fff;border:none;border-radius:100px;font-size:14px;font-weight:700;cursor:pointer;margin-top:10px}
+/* Tabs */
+.tabs{display:flex;border-top:2px solid #f5e4d4;margin:0 -20px;padding:6px 20px 0}
+.tab{flex:1;padding:10px;background:none;border:none;font-size:14px;font-weight:700;color:#baa08a;cursor:pointer;border-bottom:3px solid transparent}
+.tab.active{color:#ea580c;border-bottom-color:#ea580c}
+.tab-c{display:none}.tab-c.active{display:block}
+/* History */
+.hist-list{max-height:400px;overflow-y:auto}
+.hist-d{font-size:14px;font-weight:700;color:#431407;padding:10px 0 6px}
+.hist-item{display:flex;align-items:center;gap:10px;padding:10px 12px;margin-bottom:6px;background:#fff;border-radius:14px;border:1px solid #f5e4d4}
+.hist-item .hp{width:44px;height:44px;border-radius:10px;object-fit:cover;flex-shrink:0;background:#f5e4d4}
+.hist-item .hp-place{width:44px;height:44px;border-radius:10px;background:#f5e4d4;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.hist-item .hi{flex:1}.hist-item .hn{font-size:15px;font-weight:700;color:#431407}
+.hist-item .ht{font-size:12px;color:#baa08a}.hist-item .hd{width:28px;height:28px;border-radius:50%;border:none;background:#fee2e2;color:#ef4444;cursor:pointer;font-size:14px;flex-shrink:0}
+.hist-empty{text-align:center;color:#d6c4b8;font-size:14px;padding:40px 0}
+/* Manage */
+.mg-section{background:#fcf5ee;border-radius:20px;padding:14px;border:2px solid #f5e4d4;margin-bottom:12px}
+.mg-h{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.mg-h .l{font-size:14px;font-weight:700;color:#57534e}
+.mg-h .c{margin-left:auto;font-size:12px;color:#baa08a;background:#f5e4d4;padding:2px 10px;border-radius:12px}
+.tag-l{display:flex;flex-wrap:wrap;gap:8px;min-height:40px;margin-bottom:10px}
+.tag{display:inline-flex;align-items:center;gap:4px;background:#fff;border:1.5px solid #fbd7b5;border-radius:100px;padding:5px 10px 5px 12px;font-size:13px;font-weight:600;color:#431407}
+.tag .tp{width:20px;height:20px;border-radius:50%;object-fit:cover;flex-shrink:0}
+.tag .del{width:18px;height:18px;border-radius:50%;border:none;background:#f5e4d4;color:#9a8a7a;cursor:pointer;font-size:11px;flex-shrink:0}
+.add-r{display:flex;gap:6px;align-items:center}
+.add-r input{flex:1;padding:10px 14px;border:2px solid #f5e4d4;border-radius:14px;font-size:14px;outline:none;background:#fff}
+.add-r .cam-btn{width:40px;height:40px;border-radius:12px;border:2px solid #f5e4d4;background:#fff;cursor:pointer;font-size:18px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.add-r .ad-btn{padding:10px 18px;background:linear-gradient(135deg,#fbd7b5,#fccb9b);color:#7a4a2a;border:none;border-radius:14px;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap}
+.warn{color:#ea580c;font-size:12px;text-align:center;min-height:18px;font-weight:600;margin-top:6px}
+.fa{display:flex;justify-content:center;gap:12px;margin-top:10px}
+.fa button{background:none;border:none;color:#baa08a;font-size:12px;cursor:pointer;padding:4px 8px;border-radius:8px}
+.modal{display:none;position:fixed;z-index:100;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);align-items:center;justify-content:center;padding:20px}
+.modal.show{display:flex}.modal img{max-width:100%;max-height:90vh;border-radius:16px}
+.modal .close{position:absolute;top:16px;right:20px;color:#fff;font-size:28px;cursor:pointer;background:none;border:none}
+.photo-preview{display:none;width:60px;height:60px;border-radius:12px;object-fit:cover;margin:4px auto 0;border:2px solid #fbd7b5}
 .cf{position:absolute;inset:0;pointer-events:none;overflow:hidden}
 .cf span{position:absolute;width:8px;height:8px;border-radius:50%;animation:cfF 1.2s ease-out forwards}
 @keyframes cfF{0%{opacity:1;transform:translateY(0)scale(1)rotate(0)}100%{opacity:0;transform:translateY(120px)scale(.3)rotate(360deg)}}
-/* Buttons */
-.roll{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:linear-gradient(135deg,#f97316,#ea580c);color:#fff;border:none;border-radius:18px;font-size:18px;font-weight:800;cursor:pointer;letter-spacing:2px;margin-bottom:12px;box-shadow:0 6px 20px rgba(234,88,12,.3);transition:.15s}
-.roll:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(234,88,12,.35)}
-.roll:active{transform:scale(.97)}
-.roll:disabled{background:#d6d3d1;box-shadow:none;cursor:not-allowed;transform:none!important}
-.rec-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px;background:#fff;border:2px solid #fbd7b5;border-radius:14px;font-size:15px;font-weight:700;color:#431407;cursor:pointer;transition:.15s;margin-bottom:8px}
-.rec-btn:hover{background:#fef3e9}
-.rec-btn:disabled{opacity:.4;cursor:not-allowed}
-.rec-btn .ic{font-size:18px}
-/* Tab bar */
-.tabs{display:flex;border-top:2px solid #f5e4d4;margin:0 -20px;padding:6px 20px 0}
-.tab{flex:1;padding:10px;background:none;border:none;font-size:14px;font-weight:700;color:#baa08a;cursor:pointer;border-bottom:3px solid transparent;transition:.15s;display:flex;align-items:center;justify-content:center;gap:4px}
-.tab.active{color:#ea580c;border-bottom-color:#ea580c}
-.tab-c{display:none}
-.tab-c.active{display:block}
-/* History tab */
-.hist-list{max-height:400px;overflow-y:auto;padding:4px 0}
-.hist-d{font-size:14px;font-weight:700;color:#431407;padding:10px 0 6px}
-.hist-item{display:flex;align-items:center;gap:10px;padding:10px 12px;margin-bottom:6px;background:#fff;border-radius:14px;border:1px solid #f5e4d4;transition:.15s}
-.hist-item .hp{width:44px;height:44px;border-radius:10px;object-fit:cover;flex-shrink:0;background:#f5e4d4}
-.hist-item .hp-place{width:44px;height:44px;border-radius:10px;background:#f5e4d4;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.hist-item .hi{flex:1}
-.hist-item .hn{font-size:15px;font-weight:700;color:#431407}
-.hist-item .ht{font-size:12px;color:#baa08a}
-.hist-item .hd{width:28px;height:28px;border-radius:50%;border:none;background:#fee2e2;color:#ef4444;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.15s}
-.hist-item .hd:hover{background:#fca5a5}
-.hist-empty{text-align:center;color:#d6c4b8;font-size:14px;padding:40px 0}
-/* Manage tab */
-.mg-section{background:#fcf5ee;border-radius:20px;padding:14px 14px;border:2px solid #f5e4d4;margin-bottom:12px}
-.mg-h{display:flex;align-items:center;gap:8px;margin-bottom:10px}
-.mg-h .l{font-size:14px;font-weight:700;color:#57534e}
-.mg-h .c{margin-left:auto;font-size:12px;color:#baa08a;font-weight:600;background:#f5e4d4;padding:2px 10px;border-radius:12px}
-.tag-l{display:flex;flex-wrap:wrap;gap:8px;min-height:40px;margin-bottom:10px}
-.tag-l:empty::before{content:'还没有菜品，加一些吧 \1f373';color:#d6c4b8;font-size:14px;font-style:italic;width:100%;text-align:center;padding:8px 0}
-.tag{display:inline-flex;align-items:center;gap:4px;background:#fff;border:1.5px solid #fbd7b5;border-radius:100px;padding:5px 10px 5px 12px;font-size:13px;font-weight:600;color:#431407;box-shadow:0 2px 4px rgba(234,88,12,.06)}
-.tag .tp{width:20px;height:20px;border-radius:50%;object-fit:cover;flex-shrink:0}
-.tag .del{width:18px;height:18px;border-radius:50%;border:none;background:#f5e4d4;color:#9a8a7a;cursor:pointer;font-size:11px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;transition:.12s}
-.tag .del:hover{background:#fca5a5;color:#991b1b;transform:scale(1.1)}
-.add-r{display:flex;gap:6px;align-items:center}
-.add-r input{flex:1;padding:10px 14px;border:2px solid #f5e4d4;border-radius:14px;font-size:14px;outline:none;background:#fff;font-weight:500}
-.add-r input:focus{border-color:#f97316;box-shadow:0 0 0 3px rgba(249,115,22,.12)}
-.add-r input::placeholder{color:#d6c4b8}
-.add-r .cam-btn{width:40px;height:40px;border-radius:12px;border:2px solid #f5e4d4;background:#fff;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.15s}
-.add-r .cam-btn:hover{background:#fef3e9;border-color:#f97316}
-.add-r .ad-btn{padding:10px 18px;background:linear-gradient(135deg,#fbd7b5,#fccb9b);color:#7a4a2a;border:none;border-radius:14px;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;transition:.12s}
-.add-r .ad-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(234,88,12,.15)}
-.warn{color:#ea580c;font-size:12px;text-align:center;margin-top:8px;min-height:18px;font-weight:600}
-.fa{display:flex;justify-content:center;gap:12px;margin-top:10px}
-.fa button{background:none;border:none;color:#baa08a;font-size:12px;cursor:pointer;font-weight:500;padding:4px 8px;border-radius:8px;transition:.15s}
-.fa button:hover{background:#f5e4d4;color:#7a4a2a}
-/* Photo modal */
-.modal{display:none;position:fixed;z-index:100;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);align-items:center;justify-content:center;padding:20px}
-.modal.show{display:flex}
-.modal img{max-width:100%;max-height:90vh;border-radius:16px}
-.modal .close{position:absolute;top:16px;right:20px;color:#fff;font-size:28px;cursor:pointer;background:none;border:none}
-.photo-preview{display:none;width:60px;height:60px;border-radius:12px;object-fit:cover;margin:4px auto 0;border:2px solid #fbd7b5}
-
-
-
-
-.sphoto{margin-top:8px;display:none}
-.sphoto img{width:100%;max-height:160px;border-radius:14px;object-fit:cover;border:2px solid #fbd7b5;box-shadow:0 4px 16px rgba(234,88,12,.15);animation:photoIn .5s cubic-bezier(.34,1.56,.64,1)}
-@keyframes photoIn{0%{transform:scale(.8);opacity:0}100%{transform:scale(1);opacity:1}}
-.share-sec{margin-top:14px;padding-top:12px;border-top:2px dashed #f5e4d4;text-align:center}
-.share-sec .sh-title{font-size:14px;font-weight:700;color:#57534e;margin-bottom:8px;text-align:center}
-.share-sec .sh-qr-wrap{display:inline-block;position:relative;padding:18px 18px 12px;background:linear-gradient(180deg,#fffaf3,#fff5e6);border-radius:20px;border:2px solid #fbd7b5;box-shadow:0 4px 16px rgba(234,88,12,.08)}
-.share-sec .sh-qr-wrap img{width:150px;height:150px;display:block;margin:0 auto;border-radius:10px}
-.share-sec .sh-qr-wrap .sh-label{font-size:10px;color:#baa08a;margin-top:6px;text-align:center}
-.share-sec .sh-qr-wrap .sh-sticker{position:absolute;top:-12px;right:-8px;font-size:28px;transform:rotate(15deg)}
-.share-sec .sh-btns{display:flex;gap:10px;justify-content:center;margin-top:10px;flex-wrap:wrap}
-.share-sec .sh-btn{display:inline-flex;align-items:center;gap:4px;padding:10px 20px;border-radius:100px;font-size:14px;font-weight:700;cursor:pointer;border:none;transition:.15s}
-.share-sec .sh-btn.primary{background:linear-gradient(135deg,#f97316,#ea580c);color:#fff;box-shadow:0 3px 10px rgba(234,88,12,.25)}
-.share-sec .sh-btn.primary:hover{transform:translateY(-2px);box-shadow:0 5px 16px rgba(234,88,12,.3)}
-.share-sec .sh-btn.secondary{background:#fff;color:#431407;border:1.5px solid #fbd7b5}
-.share-sec .sh-btn.secondary:hover{background:#fef3e9}
-.share-sec .sh-hint{font-size:11px;color:#d6c4b8;margin-top:8px;text-align:center;line-height:1.5}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#431407;color:#fff;padding:10px 24px;border-radius:14px;font-size:14px;font-weight:600;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
 </style>
 </head>
 <body>
-<div class="bg-deco">🍝</div><div class="bg-deco">🥟</div><div class="bg-deco">🍜</div>
-<div class="bg-deco">🍛</div><div class="bg-deco">🥘</div><div class="bg-deco">🍣</div>
+<div class="app">
+<button class="st" id="st">🔊</button>
+<div class="hdr"><h1>🍜 中午吃什么</h1><div class="sub">每天的灵魂拷问，交给命运吧</div></div>
 
-<div class="app" style="position:relative">
-<button class="st" id="st" title="音效">🔊</button>
-
-<div class="hdr">
-  <div class="mw">
-    <svg width="80" height="80" viewBox="0 0 90 90" fill="none">
-      <ellipse cx="45" cy="52" rx="32" ry="26" fill="#FBD7B5"/>
-      <ellipse cx="45" cy="52" rx="28" ry="22" fill="#FFF5E6"/>
-      <ellipse cx="45" cy="34" rx="32" ry="10" fill="#FCCB9B"/>
-      <ellipse cx="45" cy="34" rx="28" ry="8" fill="#FFF5E6"/>
-      <path d="M28 22 Q26 16 30 12 Q34 8 32 2" stroke="#D4A88C" stroke-width="2" stroke-linecap="round" fill="none" opacity=".5">
-        <animate attributeName="d" values="M28 22 Q26 16 30 12 Q34 8 32 2;M28 22 Q24 14 30 10 Q36 6 32 0;M28 22 Q26 16 30 12 Q34 8 32 2" dur="2s" repeatCount="indefinite"/>
-      </path>
-      <path d="M44 18 Q42 12 46 8 Q50 4 48 -2" stroke="#D4A88C" stroke-width="2" stroke-linecap="round" fill="none" opacity=".5">
-        <animate attributeName="d" values="M44 18 Q42 12 46 8 Q50 4 48 -2;M44 18 Q40 10 46 6 Q52 2 48 -4;M44 18 Q42 12 46 8 Q50 4 48 -2" dur="2.5s" repeatCount="indefinite"/>
-      </path>
-      <path d="M58 22 Q60 16 56 12 Q52 8 56 2" stroke="#D4A88C" stroke-width="2" stroke-linecap="round" fill="none" opacity=".5">
-        <animate attributeName="d" values="M58 22 Q60 16 56 12 Q52 8 56 2;M58 22 Q62 14 56 10 Q50 6 56 0;M58 22 Q60 16 56 12 Q52 8 56 2" dur="1.8s" repeatCount="indefinite"/>
-      </path>
-      <circle cx="37" cy="44" r="3.5" fill="#431407"/>
-      <circle cx="35.5" cy="42.5" r="1.2" fill="#fff" opacity=".8"/>
-      <circle cx="53" cy="44" r="3.5" fill="#431407"/>
-      <circle cx="51.5" cy="42.5" r="1.2" fill="#fff" opacity=".8"/>
-      <ellipse cx="31" cy="51" rx="6" ry="3.5" fill="#FCA5A5" opacity=".35"/>
-      <ellipse cx="59" cy="51" rx="6" ry="3.5" fill="#FCA5A5" opacity=".35"/>
-      <path d="M39 54 Q45 59 51 54" stroke="#431407" stroke-width="2" stroke-linecap="round" fill="none"/>
-      <rect x="70" y="38" width="4" height="20" rx="2" fill="#D4A88C" transform="rotate(25,72,38)"/>
-      <ellipse cx="72" cy="35" rx="7" ry="5" fill="#FCCB9B" transform="rotate(25,72,38)"/>
-    </svg>
-  </div>
-  <h1>🍜 中午吃什么</h1>
-  <div class="sub">每天的灵魂拷问，交给命运吧</div>
-</div>
-
-<!-- Tab: Pick -->
 <div id="t-pick" class="tab-c active">
   <div class="slot">
     <div class="stxt" id="sd">今天想吃什么？</div>
-    <div class="sphoto" id="sphoto"><img id="sphotoImg" src="" alt=""></div>
-  <div class="shint" id="sh">点击下面按钮让命运替你决定</div>
+    <div class="sphoto" id="sp"><img id="spi" src="" alt=""></div>
+    <div class="shint" id="sh">点击按钮让命运替你决定</div>
     <div class="cf" id="cf"></div>
   </div>
-  <button class="roll" id="roll"><span>🎲</span><span>转一下</span></button>
-  <button class="rec-btn" id="recBtn" disabled><span class="ic">✅</span><span id="recText">记录今天吃了这个</span></button>
-</div>
+  <button class="roll" id="roll">🎲 转一下</button>
+  <button class="rec-btn" id="rec" disabled>✅ 记录今天吃了这个</button>
 
-
-
-<!-- Tab: History -->
-<div id="t-hist" class="tab-c">
-  <div class="mg-section">
-    <div class="mg-h"><span class="l">📋 历史记录</span><span class="c" id="histCount">0 条</span></div>
-    <div class="hist-list" id="histList"></div>
+  <div class="share-sec">
+    <div class="sh-qr-wrap"><img id="qrimg" src="data:image/png;base64,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" alt="QR"><div class="sh-label">扫码打开·永久链接</div></div>
+    <button class="sh-btn" id="shareBtn">📲 分享给朋友</button>
   </div>
 </div>
 
-<!-- Tab: Manage -->
+<div id="t-hist" class="tab-c">
+  <div class="mg-section">
+    <div class="mg-h"><span class="l">📋 历史记录</span><span class="c" id="hc">0 条</span></div>
+    <div class="hist-list" id="hl"></div>
+  </div>
+</div>
+
 <div id="t-mg" class="tab-c">
   <div class="mg-section">
     <div class="mg-h"><span class="l">📋 候选菜单</span><span class="c" id="fc">0 个菜</span></div>
     <div class="tag-l" id="tl"></div>
     <div class="add-r">
       <input type="text" id="fi" placeholder="输入菜品，如 麻辣烫" maxlength="20">
-      <button class="cam-btn" id="camBtn" title="拍照">📷</button>
+      <button class="cam-btn" id="camBtn">📷</button>
       <button class="ad-btn" id="addBtn">添加</button>
     </div>
-    <img class="photo-preview" id="photoPreview" alt="preview">
-    <input type="file" id="fileInput" accept="image/*" capture="environment" style="display:none">
+    <img class="photo-preview" id="pp" alt="">
+    <input type="file" id="fileIn" accept="image/*" capture="environment" style="display:none">
     <div class="warn" id="warn"></div>
-    <div class="fa">
-      <button id="resetBtn">🔄 恢复默认</button>
-      <button id="clearBtn">🗑️ 清空菜单</button>
-    </div>
+    <div class="fa"><button id="resetBtn">🔄 恢复默认</button><button id="clearBtn">🗑️ 清空菜单</button></div>
   </div>
 </div>
 
-<!-- Tabs -->
-<div class="share-sec">
-    <div class="sh-title">📤 分享给朋友</div>
-    <div class="sh-qr-wrap">
-      <span class="sh-sticker">🍜</span>
-      <img id="qrImg" src="data:image/png;base64,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" alt="QR">
-      <div class="sh-label">扫码打开 · 永久分享</div>
-    </div>
-    <div class="sh-btns">
-      <button class="sh-btn primary" id="shareBtn">📲 分享给朋友</button>
-      
-    </div>
-    
-  </div>
-  <div class="tabs">
+<div class="tabs">
   <button class="tab active" data-tab="pick">🎲 选菜</button>
   <button class="tab" data-tab="hist">📋 历史</button>
   <button class="tab" data-tab="mg">⚙️ 管理</button>
 </div>
 </div>
 
-<!-- Photo Modal -->
-<div class="modal" id="modal">
-  <button class="close" id="modalClose">✕</button>
-  <img id="modalImg" src="" alt="">
-</div>
+<div class="modal" id="modal"><button class="close" id="mc">✕</button><img id="mi" src="" alt=""></div>
+<div class="toast" id="toast"></div>
 
 <script>
-// ===== Sound =====
-let ac=null,se=true;
-function ai(){if(!ac)try{ac=new(window.AudioContext||window.webkitAudioContext)()}catch{}}
-function pt(){if(!se||!ac)return;try{const o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.value=700+Math.random()*500;g.gain.setValueAtTime(.07,ac.currentTime);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+.04);o.connect(g).connect(ac.destination);o.start();o.stop(ac.currentTime+.04)}catch{}}
-function pr(){if(!se||!ac)return;try{[523.25,659.25,783.99].forEach((f,i)=>{const o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0,ac.currentTime+i*.1);g.gain.linearRampToValueAtTime(.11,ac.currentTime+i*.1+.02);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+i*.1+.3);o.connect(g).connect(ac.destination);o.start(ac.currentTime+i*.1);o.stop(ac.currentTime+i*.1+.3)});const o2=ac.createOscillator(),g2=ac.createGain();o2.type='sine';o2.frequency.value=1567.98;g2.gain.setValueAtTime(0,ac.currentTime+.3);g2.gain.linearRampToValueAtTime(.05,ac.currentTime+.35);g2.gain.exponentialRampToValueAtTime(.001,ac.currentTime+.7);o2.connect(g2).connect(ac.destination);o2.start(ac.currentTime+.3);o2.stop(ac.currentTime+.7)}catch{}}
+const DEF = ['麻辣烫','兰州拉面','黄焖鸡','沙县小吃','米线','炸酱面','盖浇饭','螺蛳粉','饺子','煲仔饭','酸菜鱼','烧腊饭','桂林米粉','凉皮','披萨','关东煮'];
+var $ = function(id) { return document.getElementById(id); };
+var sd = $('sd'), sh = $('sh'), roll = $('roll'), rec = $('rec'), st = $('st');
+var hl = $('hl'), hc = $('hc'), tl = $('tl'), fc = $('fc'), fi = $('fi'), warn = $('warn');
+var pp = $('pp'), fileIn = $('fileIn'), camBtn = $('camBtn');
+var resetBtn = $('resetBtn'), clearBtn = $('clearBtn'), addBtn = $('addBtn');
+var items = [], phCache = {}, isSpin = false, lastResult = null, pendingPhoto = null;
+var se = true, ac = null;
 
-// ===== IndexedDB =====
-function dbOpen(){return new Promise((rs,rj)=>{const r=indexedDB.open('LP',1);r.onupgradeneeded=e=>{const d=e.target.result;if(!d.objectStoreNames.contains('f'))d.createObjectStore('f',{keyPath:'n'});if(!d.objectStoreNames.contains('h'))d.createObjectStore('h',{keyPath:'i',autoIncrement:!0}).createIndex('d','d',{unique:!1})};r.onsuccess=e=>rs(e.target.result);r.onerror=e=>rj(e.target.error)})}
-function dbGetFood(n){return dbOpen().then(d=>new Promise((rs,rj)=>{const t=d.transaction('f','readonly').objectStore('f').get(n);t.onsuccess=()=>rs(t.result);t.onerror=()=>rj(t.error)}))}
-function dbPutFood(f){return dbOpen().then(d=>new Promise((rs,rj)=>{const t=d.transaction('f','readwrite').objectStore('f').put(f);t.onsuccess=()=>rs();t.onerror=()=>rj(t.error)}))}
-function dbDelFood(n){return dbOpen().then(d=>new Promise((rs,rj)=>{const t=d.transaction('f','readwrite').objectStore('f').delete(n);t.onsuccess=()=>rs();t.onerror=()=>rj(t.error)}))}
-function dbGetAllFoods(){return dbOpen().then(d=>new Promise((rs,rj)=>{const r=[];d.transaction('f','readonly').objectStore('f').openCursor().onsuccess=e=>{const c=e.target.result;if(c){r.push(c.value);c.continue()}else rs(r)}}))}
-function dbGetFoodNames(){return dbOpen().then(d=>new Promise((rs,rj)=>{const r=[];d.transaction('f','readonly').objectStore('f').openCursor().onsuccess=e=>{const c=e.target.result;if(c){r.push(c.value.n);c.continue()}else rs(r)}}))}
-function dbAddHist(h){return dbOpen().then(d=>new Promise((rs,rj)=>{const t=d.transaction('h','readwrite').objectStore('h').add(h);t.onsuccess=()=>rs(t.result);t.onerror=()=>rj(t.error)}))}
-function dbDelHist(i){return dbOpen().then(d=>new Promise((rs,rj)=>{d.transaction('h','readwrite').objectStore('h').delete(i).onsuccess=()=>rs()}))}
-function dbGetAllHist(){return dbOpen().then(d=>new Promise((rs,rj)=>{const r=[];d.transaction('h','readonly').objectStore('h').index('d').openCursor(null,'prev').onsuccess=e=>{const c=e.target.result;if(c){r.push(c.value);c.continue()}else rs(r)}}))}
-
-// ===== Photo compression =====
-function compImg(f,mw=600,q=.6){return new Promise(rs=>{const r=new FileReader();r.onload=e=>{const i=new Image();i.onload=()=>{const c=document.createElement('canvas');let w=i.width,h=i.height;if(w>mw){h=h*mw/w;w=mw}c.width=w;c.height=h;c.getContext('2d').drawImage(i,0,0,w,h);rs(c.toDataURL('image/jpeg',q))};i.src=e.target.result};r.readAsDataURL(f)})}
-
-// ===== State =====
-const DEF=['麻辣烫','兰州拉面','黄焖鸡','沙县小吃','米线','炸酱面','盖浇饭','螺蛳粉','饺子','煲仔饭','酸菜鱼','烧腊饭','桂林米粉','凉皮','披萨','关东煮'];
-let items=[],phCache={},isSpin=!1,lastResult=null,pendingPhoto=null;
-const $=i=>document.getElementById(i);
-const sd=$('sd'),sh=$('sh'),roll=$('roll'),recBtn=$('recBtn'),recText=$('recText');
-
-// ===== Init DB + migrate localStorage =====
-async function init(){// migrate from localStorage
-const ls=localStorage.getItem('lunchItems');let names=[];
-if(ls){try{const arr=JSON.parse(ls);for(const n of arr){const e=await dbGetFood(n);if(!e)await dbPutFood({n:n,p:null});names.push(n)}localStorage.removeItem('lunchItems')}catch{}}
-if(!names.length){const all=await dbGetAllFoods();if(all.length){names=all.map(x=>x.n)}else{names=[...DEF];for(const n of names)await dbPutFood({n:n,p:null})}}
-items=names;await loadPhotos();render();clearR()}
-async function loadPhotos(){phCache={};const all=await dbGetAllFoods();all.forEach(x=>{if(x.p)phCache[x.n]=x.p})}
-function saveNames(){/* auto-saved to DB when adding/removing */}
-
-// ===== Render =====
-function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML}
-async function render(){const tl=$('tl');tl.innerHTML='';$('fc').textContent=items.length+' 个菜';
-for(const n of items){const t=document.createElement('span');t.className='tag';
-let ph='';if(phCache[n])ph='<img class="tp" src="'+phCache[n]+'" alt="">';
-t.innerHTML=ph+esc(n)+'<button class="del" data-n="'+esc(n)+'">✕</button>';tl.appendChild(t)}
-tl.querySelectorAll('.del').forEach(b=>b.addEventListener('click',async()=>{
-const n=b.dataset.n;items=items.filter(x=>x!==n);await dbDelFood(n);delete phCache[n];await render();clearR();saveNames()}))}
-
-async function renderHist(){const hl=$('histList'),hc=$('histCount');hl.innerHTML='';const all=await dbGetAllHist();hc.textContent=all.length+' 条';
-if(!all.length){hl.innerHTML='<div class="hist-empty">还没有吃过记录 📝<br>摇一摇，吃完记下来</div>';return}
-const grp={};all.forEach(h=>{const d=h.d||'未知日期';if(!grp[d])grp[d]=[];grp[d].push(h)})
-Object.keys(grp).sort((a,b)=>b.localeCompare(a)).forEach(d=>{
-hl.innerHTML+='<div class="hist-d">'+d+'</div>';
-grp[d].forEach(h=>{
-let ph='<div class="hp-place">🍽️</div>';
-if(h.p)ph='<img class="hp" src="'+h.p+'" alt="" onclick="viewPhoto(\''+h.p.replace(/['"]/g,'')+'\')">';
-hl.innerHTML+='<div class="hist-item">'+ph+'<div class="hi"><div class="hn">'+esc(h.n)+'</div><div class="ht">'+h.d+' '+h.t+'</div></div><button class="hd" data-id="'+h.i+'">✕</button></div>'
-})});
-hl.querySelectorAll('.hd').forEach(b=>b.addEventListener('click',async()=>{
-const id=parseInt(b.dataset.id);await dbDelHist(id);await renderHist()}))}
-
-// ===== Clear / Result =====
-function clearR(){sd.className='stxt';sd.textContent=items.length?'今天想吃什么？':'先加几个菜吧 ✍️';sh.className='shint';sh.textContent=items.length?'点击下面按钮让命运替你决定':'菜单是空的，添一些菜品吧';lastResult=null;recBtn.disabled=!0;recText.textContent='记录今天吃了这个'}
-
-function fc(){const c=$('cf');const cl=['#f97316','#fca5a5','#facc15','#4ade80','#60a5fa','#c084fc','#f472b6'];c.innerHTML='';for(let i=0;i<30;i++){const e=document.createElement('span');e.style.left=Math.random()*100+'%';e.style.top=Math.random()*40+'%';e.style.background=cl[Math.floor(Math.random()*cl.length)];e.style.width=(4+Math.random()*8)+'px';e.style.height=(4+Math.random()*8)+'px';e.style.animationDuration=(.6+Math.random()*.8)+'s';e.style.animationDelay=Math.random()*.3+'s';c.appendChild(e)}setTimeout(()=>{c.innerHTML=''},2000)}
-
-// ===== Spin =====
-function spin(){
-  if(isSpin) return;
-  if(!items.length){$('warn').textContent='⚠️ 菜单是空的！';return}
-  $('warn').textContent='';
-  isSpin=true; roll.disabled=true;
-  sd.className='stxt spinning'; sh.className='shint';
-  sh.textContent='🤔 让我想想……';
-  var sp=document.getElementById('sphoto');
-  if(sp) sp.style.display='none';
-  recBtn.disabled=true; ai();
-  var dur=2200, iv=60, tt=Math.floor(dur/iv);
-  var tk=0, ri=-1;
-  function eo(t){return 1-Math.pow(1-t,3)}
-  function st(){
-    tk++; var p=tk/tt, eo2=eo(Math.min(p,1));
-    if(p>=1){
-      if(ri<0) ri=Math.floor(Math.random()*items.length);
-      sd.className='stxt result';
-      sd.textContent=items[ri];
-      var _sp=document.getElementById('sphoto'),_si=document.getElementById('sphotoImg');
-      var _ph=phCache[items[ri]];
-      if(_ph&&_sp){_sp.style.display='block';_si.src=_ph}
-      else if(_sp){_sp.style.display='none'}
-      sh.className='shint rh';
-      sh.textContent='🍚 决定了！就吃这个！';
-      isSpin=false; roll.disabled=false;
-      lastResult=items[ri];
-      recBtn.disabled=false;
-      recText.textContent='✅ 记录今天吃了「'+lastResult+'」';
-      fc(); pr(); return;
+function ai() {
+  if (!ac) { try { ac = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {} }
+}
+function pt() {
+  if (!se || !ac) return;
+  try {
+    var o = ac.createOscillator(), g = ac.createGain();
+    o.type = 'sine'; o.frequency.value = 700 + Math.random() * 500;
+    g.gain.setValueAtTime(0.07, ac.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + 0.04);
+    o.connect(g).connect(ac.destination); o.start(); o.stop(ac.currentTime + 0.04);
+  } catch(e) {}
+}
+function pr() {
+  if (!se || !ac) return;
+  try {
+    var notes = [523.25, 659.25, 783.99];
+    for (var i = 0; i < notes.length; i++) {
+      (function(f, d) {
+        var o = ac.createOscillator(), g = ac.createGain();
+        o.type = 'sine'; o.frequency.value = f;
+        g.gain.setValueAtTime(0, ac.currentTime + d);
+        g.gain.linearRampToValueAtTime(0.11, ac.currentTime + d + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + d + 0.3);
+        o.connect(g).connect(ac.destination); o.start(ac.currentTime + d); o.stop(ac.currentTime + d + 0.3);
+      })(notes[i], i * 0.1);
     }
-    if(p>0.8&&ri===-1) ri=Math.floor(Math.random()*items.length);
-    var idx;
-    if(ri!==-1&&Math.random()<eo2) idx=ri;
-    else idx=Math.floor(Math.random()*items.length);
-    sd.textContent=items[idx];
-    pt();
-    setTimeout(st, iv*(1+eo2*1.5));
-  }
-  st();
+    var o2 = ac.createOscillator(), g2 = ac.createGain();
+    o2.type = 'sine'; o2.frequency.value = 1567.98;
+    g2.gain.setValueAtTime(0, ac.currentTime + 0.3);
+    g2.gain.linearRampToValueAtTime(0.05, ac.currentTime + 0.35);
+    g2.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + 0.7);
+    o2.connect(g2).connect(ac.destination); o2.start(ac.currentTime + 0.3); o2.stop(ac.currentTime + 0.7);
+  } catch(e) {}
 }
 
-// ===== Record history =====
-async function recHist(){if(!lastResult)return;const n=new Date();const d=n.toISOString().slice(0,10);const t=n.toTimeString().slice(0,5);const h={n:lastResult,d:d,t:t};const food=await dbGetFood(lastResult);if(food&&food.p)h.p=food.p;await dbAddHist(h);recBtn.disabled=!0;recText.textContent='✅ 已记录！'+d;const o=recBtn.textContent;setTimeout(()=>{recBtn.disabled=!1;recText.textContent='✅ 记录今天吃了「'+lastResult+'」'},2000);await renderHist()}
+// IndexedDB
+function dbOpen() {
+  return new Promise(function(rs, rj) {
+    var r = indexedDB.open('LP', 1);
+    r.onupgradeneeded = function(e) {
+      var d = e.target.result;
+      if (!d.objectStoreNames.contains('f')) d.createObjectStore('f', { keyPath: 'n' });
+      if (!d.objectStoreNames.contains('h')) d.createObjectStore('h', { keyPath: 'i', autoIncrement: true }).createIndex('d', 'd', { unique: false });
+    };
+    r.onsuccess = function(e) { rs(e.target.result); };
+    r.onerror = function(e) { rj(e.target.error); };
+  });
+}
 
-// ===== Add food =====
-$('camBtn').addEventListener('click',()=>{$('fileInput').click()})
-$('fileInput').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;pendingPhoto=await compImg(f);$('photoPreview').src=pendingPhoto;$('photoPreview').style.display='block';$('warn').textContent='📸 已添加照片，输入名称后点添加'})
-async function addItem(){const v=$('fi').value.trim();if(!v)return;if(items.includes(v)){$('warn').textContent='"'+v+'" 已经在列表里啦 🫢';return}
-const existing=await dbGetFood(v);if(existing&&existing.p){$('warn').textContent='"'+v+'" 已经有照片了';pendingPhoto=null;$('photoPreview').style.display='none';return}
-await dbPutFood({n:v,p:pendingPhoto||null});if(pendingPhoto)phCache[v]=pendingPhoto;items.push(v);await render();$('fi').value='';$('warn').textContent='';$('photoPreview').style.display='none';pendingPhoto=null;clearR()}
+function dbGet(n) { return dbOpen().then(function(d) { return new Promise(function(rs) { var t = d.transaction('f','readonly').objectStore('f').get(n); t.onsuccess = function() { rs(t.result); }; }); }); }
+function dbPut(f) { return dbOpen().then(function(d) { return new Promise(function(rs) { d.transaction('f','readwrite').objectStore('f').put(f).onsuccess = function() { rs(); }; }); }); }
+function dbDel(n) { return dbOpen().then(function(d) { return new Promise(function(rs) { d.transaction('f','readwrite').objectStore('f').delete(n).onsuccess = function() { rs(); }; }); }); }
+function dbAllF() { return dbOpen().then(function(d) { return new Promise(function(rs) { var r = []; d.transaction('f','readonly').objectStore('f').openCursor().onsuccess = function(e) { var c = e.target.result; if (c) { r.push(c.value); c.continue(); } else rs(r); }; }); }); }
+function dbAddH(h) { return dbOpen().then(function(d) { return new Promise(function(rs) { d.transaction('h','readwrite').objectStore('h').add(h).onsuccess = function() { rs(); }; }); }); }
+function dbDelH(i) { return dbOpen().then(function(d) { return new Promise(function(rs) { d.transaction('h','readwrite').objectStore('h').delete(i).onsuccess = function() { rs(); }; }); }); }
+function dbAllH() { return dbOpen().then(function(d) { return new Promise(function(rs) { var r = []; d.transaction('h','readonly').objectStore('h').index('d').openCursor(null,'prev').onsuccess = function(e) { var c = e.target.result; if (c) { r.push(c.value); c.continue(); } else rs(r); }; }); }); }
 
-// ===== Reset / Clear =====
-async function resetToDefault(){if(items.length&&!confirm('恢复默认会覆盖当前菜单，确定吗？'))return;for(const n of items){if(!DEF.includes(n)){await dbDelFood(n);delete phCache[n]}}for(const n of DEF){const e=await dbGetFood(n);if(!e)await dbPutFood({n:n,p:null})}items=[...DEF];await loadPhotos();await render();clearR();$('warn').textContent='✅ 已恢复默认菜单';setTimeout(()=>{$('warn').textContent=''},2000)}
-async function clearAll(){if(!items.length)return;if(!confirm('确定要清空所有菜品吗？'))return;for(const n of items){await dbDelFood(n);delete phCache[n]}items=[];await render();clearR();$('warn').textContent='🗑️ 菜单已清空';setTimeout(()=>{$('warn').textContent=''},2000)}
+function compImg(f, mw, q) {
+  if (!mw) mw = 600; if (!q) q = 0.6;
+  return new Promise(function(rs) {
+    var r = new FileReader();
+    r.onload = function(e) {
+      var img = new Image();
+      img.onload = function() {
+        var c = document.createElement('canvas'), w = img.width, h = img.height;
+        if (w > mw) { h = h * mw / w; w = mw; }
+        c.width = w; c.height = h;
+        c.getContext('2d').drawImage(img, 0, 0, w, h);
+        rs(c.toDataURL('image/jpeg', q));
+      };
+      img.src = e.target.result;
+    };
+    r.readAsDataURL(f);
+  });
+}
 
-// ===== Tab switching =====
-document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
-document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab-c').forEach(x=>x.classList.remove('active'));
-t.classList.add('active');document.getElementById('t-'+t.dataset.tab).classList.add('active');
-if(t.dataset.tab==='hist')renderHist();if(t.dataset.tab==='mg')render()}))
+function esc(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 
-// ===== Photo viewer =====
-function viewPhoto(src){const m=$('modal'),mi=$('modalImg');mi.src=src;m.classList.add('show')}
-$('modalClose').addEventListener('click',()=>{$('modal').classList.remove('show')})
-$('modal').addEventListener('click',e=>{if(e.target===$('modal'))$('modal').classList.remove('show')})
+function showToast(msg) {
+  var t = $('toast');
+  t.textContent = msg; t.style.opacity = '1';
+  setTimeout(function() { t.style.opacity = '0'; }, 2000);
+}
 
-// ===== Events =====
-roll.addEventListener('click',spin);
-recBtn.addEventListener('click',recHist);
-$('addBtn').addEventListener('click',addItem);
-$('fi').addEventListener('keydown',e=>{if(e.key==='Enter')addItem()});
-$('resetBtn').addEventListener('click',resetToDefault);
-$('clearBtn').addEventListener('click',clearAll);
-$('st').addEventListener('click',()=>{se=!se;$('st').textContent=se?'🔊':'🔇';$('st').classList.toggle('muted',!se);if(se)ai()});
-document.addEventListener('click',()=>ai(),{once:true});
+// Init
+async function init() {
+  var all = await dbAllF();
+  if (all.length) {
+    items = all.map(function(x) { return x.n; });
+    for (var i = 0; i < all.length; i++) {
+      if (all[i].p) phCache[all[i].n] = all[i].p;
+    }
+  } else {
+    items = DEF.slice();
+    for (var i = 0; i < DEF.length; i++) {
+      await dbPut({ n: DEF[i], p: null });
+    }
+  }
+  render(); clearR();
+}
 
+async function loadPhotos() {
+  phCache = {};
+  var all = await dbAllF();
+  for (var i = 0; i < all.length; i++) {
+    if (all[i].p) phCache[all[i].n] = all[i].p;
+  }
+}
 
-// ===== City food data =====
+function clearR() {
+  var sp = $('sp');
+  sd.className = 'stxt';
+  sd.textContent = items.length ? '今天想吃什么？' : '先加几个菜吧';
+  sh.className = 'shint';
+  sh.textContent = items.length ? '点击按钮让命运替你决定' : '菜单是空的，添一些菜品吧';
+  if (sp) sp.style.display = 'none';
+  lastResult = null;
+  rec.disabled = true;
+  rec.innerHTML = '✅ 记录今天吃了这个';
+}
 
-// ===== Geolocation =====
-let userCity = null;
-let cityCached = false;
+async function render() {
+  tl.innerHTML = '';
+  fc.textContent = items.length + ' 个菜';
+  for (var i = 0; i < items.length; i++) {
+    var t = document.createElement('span'); t.className = 'tag';
+    var ph = '';
+    if (phCache[items[i]]) ph = '<img class="tp" src="' + phCache[items[i]] + '" alt="">';
+    t.innerHTML = ph + esc(items[i]) + '<button class="del" data-n="' + esc(items[i]) + '">✕</button>';
+    tl.appendChild(t);
+  }
+  var dels = tl.querySelectorAll('.del');
+  for (var i = 0; i < dels.length; i++) {
+    dels[i].addEventListener('click', async function() {
+      var n = this.dataset.n;
+      items = items.filter(function(x) { return x !== n; });
+      await dbDel(n); delete phCache[n];
+      await render(); clearR();
+    });
+  }
+}
 
+async function renderHist() {
+  hl.innerHTML = '';
+  var all = await dbAllH();
+  hc.textContent = all.length + ' 条';
+  if (!all.length) { hl.innerHTML = '<div class="hist-empty">还没有吃过记录 📝<br>摇一摇，吃完记下来</div>'; return; }
+  var grp = {};
+  for (var i = 0; i < all.length; i++) {
+    var d = all[i].d || '未知日期';
+    if (!grp[d]) grp[d] = [];
+    grp[d].push(all[i]);
+  }
+  var dates = Object.keys(grp).sort().reverse();
+  for (var di = 0; di < dates.length; di++) {
+    hl.innerHTML += '<div class="hist-d">' + dates[di] + '</div>';
+    for (var hi = 0; hi < grp[dates[di]].length; hi++) {
+      var h = grp[dates[di]][hi];
+      var ph = '<div class="hp-place">🍽️</div>';
+      if (h.p) { ph = '<img class="hp" src="' + h.p + '" alt="">'; }
+      hl.innerHTML += '<div class="hist-item">' + ph + '<div class="hi"><div class="hn">' + esc(h.n) + '</div><div class="ht">' + h.d + ' ' + h.t + '</div></div><button class="hd" data-id="' + h.i + '">✕</button></div>';
+    }
+  }
+  hl.addEventListener('click',function(e){if(e.target.classList.contains('hp')){viewPhoto(e.target.src);}}); var hds = hl.querySelectorAll('.hd');
+  for (var i = 0; i < hds.length; i++) {
+    hds[i].addEventListener('click', async function() {
+      await dbDelH(parseInt(this.dataset.id));
+      await renderHist();
+    });
+  }
+}
 
+function fc() {
+  var c = $('cf'), cl = ['#f97316','#fca5a5','#facc15','#4ade80','#60a5fa','#c084fc','#f472b6'];
+  c.innerHTML = '';
+  for (var i = 0; i < 30; i++) {
+    var e = document.createElement('span');
+    e.style.left = Math.random() * 100 + '%';
+    e.style.top = Math.random() * 40 + '%';
+    e.style.background = cl[Math.floor(Math.random() * cl.length)];
+    e.style.width = (4 + Math.random() * 8) + 'px';
+    e.style.height = (4 + Math.random() * 8) + 'px';
+    e.style.animationDuration = (0.6 + Math.random() * 0.8) + 's';
+    e.style.animationDelay = Math.random() * 0.3 + 's';
+    c.appendChild(e);
+  }
+  setTimeout(function() { c.innerHTML = ''; }, 2000);
+}
 
+// Spin
+function spin() {
+  if (isSpin) return;
+  if (!items.length) { warn.textContent = '⚠️ 菜单是空的！'; return; }
+  warn.textContent = '';
+  isSpin = true;
+  roll.disabled = true;
+  sd.className = 'stxt spinning';
+  sh.className = 'shint';
+  sh.textContent = '🤔 让我想想……';
+  rec.disabled = true;
+  var sp = $('sp');
+  if (sp) sp.style.display = 'none';
+  ai();
+  
+  var dur = 2200, iv = 60, tt = Math.floor(dur / iv);
+  var tk = 0, ri = -1;
+  
+  function eo(t) { return 1 - Math.pow(1 - t, 3); }
+  
+  function step() {
+    tk++;
+    var p = tk / tt;
+    var eased = eo(Math.min(p, 1));
+    
+    if (p >= 1) {
+      if (ri < 0) ri = Math.floor(Math.random() * items.length);
+      sd.className = 'stxt result';
+      sd.textContent = items[ri];
+      var _sp = $('sp'), _si = document.getElementById('spi');
+      var _ph = phCache[items[ri]];
+      if (_ph && _sp) { _sp.style.display = 'block'; _si.src = _ph; }
+      else if (_sp) { _sp.style.display = 'none'; }
+      sh.className = 'shint rh';
+      sh.textContent = '🍚 决定了！就吃这个！';
+      isSpin = false; roll.disabled = false;
+      lastResult = items[ri];
+      rec.disabled = false;
+      rec.innerHTML = '✅ 记录今天吃了「' + lastResult + '」';
+      fc(); pr();
+      return;
+    }
+    
+    if (p > 0.8 && ri === -1) ri = Math.floor(Math.random() * items.length);
+    var idx;
+    if (ri !== -1 && Math.random() < eased) idx = ri;
+    else idx = Math.floor(Math.random() * items.length);
+    
+    sd.textContent = items[idx];
+    pt();
+    setTimeout(step, iv * (1 + eased * 1.5));
+  }
+  
+  step();
+}
 
+// Add
+async function addItem() {
+  var v = fi.value.trim();
+  if (!v) return;
+  if (items.indexOf(v) >= 0) { warn.textContent = '"' + v + '" 已经在列表里啦'; return; }
+  var ex = await dbGet(v);
+  if (ex && ex.p) { warn.textContent = '"' + v + '" 已经有照片了'; pendingPhoto = null; pp.style.display = 'none'; return; }
+  await dbPut({ n: v, p: pendingPhoto || null });
+  if (pendingPhoto) phCache[v] = pendingPhoto;
+  items.push(v);
+  await render();
+  fi.value = ''; warn.textContent = ''; pp.style.display = 'none'; pendingPhoto = null;
+  clearR();
+}
 
-// Init location on pick tab show + on load
+// Record
+async function recHist() {
+  if (!lastResult) return;
+  var n = new Date(), d = n.toISOString().slice(0, 10), t = n.toTimeString().slice(0, 5);
+  var h = { n: lastResult, d: d, t: t };
+  var food = await dbGet(lastResult);
+  if (food && food.p) h.p = food.p;
+  await dbAddH(h);
+  rec.disabled = true;
+  rec.innerHTML = '✅ 已记录！' + d;
+  var that = this;
+  setTimeout(function() {
+    rec.disabled = false;
+    rec.innerHTML = '✅ 记录今天吃了「' + lastResult + '」';
+  }, 2000);
+  await renderHist();
+}
+
+// Reset / Clear
+async function resetToDefault() {
+  if (items.length && !confirm('恢复默认会覆盖当前菜单，确定吗？')) return;
+  for (var i = 0; i < items.length; i++) {
+    if (DEF.indexOf(items[i]) < 0) { await dbDel(items[i]); delete phCache[items[i]]; }
+  }
+  for (var i = 0; i < DEF.length; i++) {
+    var e = await dbGet(DEF[i]);
+    if (!e) await dbPut({ n: DEF[i], p: null });
+  }
+  items = DEF.slice();
+  await loadPhotos(); await render(); clearR();
+  warn.textContent = '✅ 已恢复默认菜单';
+  setTimeout(function() { warn.textContent = ''; }, 2000);
+}
+async function clearAll() {
+  if (!items.length) return;
+  if (!confirm('确定要清空所有菜品吗？')) return;
+  for (var i = 0; i < items.length; i++) { await dbDel(items[i]); delete phCache[items[i]]; }
+  items = []; await render(); clearR();
+  warn.textContent = '🗑️ 菜单已清空';
+  setTimeout(function() { warn.textContent = ''; }, 2000);
+}
+
+// Photo
+camBtn.addEventListener('click', function() { fileIn.click(); });
+fileIn.addEventListener('change', async function(e) {
+  var f = e.target.files[0];
+  if (!f) return;
+  pendingPhoto = await compImg(f);
+  pp.src = pendingPhoto; pp.style.display = 'block';
+  warn.textContent = '📸 已添加照片，输入名称后点添加';
 });
 
+// View photo
+function viewPhoto(src) { var m = $('modal'), mi = $('mi'); mi.src = src; m.classList.add('show'); }
+$('mc').addEventListener('click', function() { $('modal').classList.remove('show'); });
+$('modal').addEventListener('click', function(e) { if (e.target === $('modal')) $('modal').classList.remove('show'); });
 
-// ===== Share =====
-const SHARE_URL = 'https://lunch-picker.github.io/lunch-picker/';
-document.getElementById('shareBtn').addEventListener('click', async () => {
+// Tabs
+var tabs = document.querySelectorAll('.tab');
+for (var i = 0; i < tabs.length; i++) {
+  tabs[i].addEventListener('click', function() {
+    var tabs2 = document.querySelectorAll('.tab');
+    for (var j = 0; j < tabs2.length; j++) tabs2[j].classList.remove('active');
+    var tcs = document.querySelectorAll('.tab-c');
+    for (var j = 0; j < tcs.length; j++) tcs[j].classList.remove('active');
+    this.classList.add('active');
+    $('t-' + this.dataset.tab).classList.add('active');
+    if (this.dataset.tab === 'hist') renderHist();
+    if (this.dataset.tab === 'mg') render();
+  });
+}
+
+// Share
+document.getElementById('shareBtn').addEventListener('click', async function() {
   if (navigator.share) {
-    try { await navigator.share({ title: '🍜 今天中午吃什么', text: '每天中午不知道吃什么？摇一摇让命运替你决定！', url: SHARE_URL }); } catch {}
-  } else { try { navigator.clipboard.writeText(SHARE_URL); } catch {} }
+    try { await navigator.share({ title: '🍜 今天中午吃什么', text: '每天中午不知道吃什么？摇一摇让命运替你决定！', url: 'https://lunch-picker.github.io/lunch-picker/' }); } catch(e) {}
+  } else {
+    try { await navigator.clipboard.writeText('https://lunch-picker.github.io/lunch-picker/'); showToast('✅ 链接已复制！'); } catch(e) {}
+  }
 });
 
-// ===== Init =====
+// Event listeners
+roll.addEventListener('click', spin);
+rec.addEventListener('click', recHist);
+addBtn.addEventListener('click', addItem);
+fi.addEventListener('keydown', function(e) { if (e.key === 'Enter') addItem(); });
+resetBtn.addEventListener('click', resetToDefault);
+clearBtn.addEventListener('click', clearAll);
+st.addEventListener('click', function() {
+  se = !se;
+  st.textContent = se ? '🔊' : '🔇';
+  st.classList.toggle('muted', !se);
+  if (se) ai();
+});
+document.addEventListener('click', function() { ai(); }, { once: true });
+
 init();
 </script>
 </body>
